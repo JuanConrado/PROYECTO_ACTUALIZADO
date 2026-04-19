@@ -1,6 +1,6 @@
 # Proyecto Final: Predicción de Volatilidad — INTC
 
-**Segundo Entregable — Machine Learning para Ciencia de Datos**
+**Machine Learning **
 
 ---
 
