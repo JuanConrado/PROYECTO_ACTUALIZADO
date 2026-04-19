@@ -1,6 +1,6 @@
 # Proyecto Final: Predicción de Volatilidad — INTC
 
-**Machine Learning **
+**Machine Learning**
 
 ---
 
