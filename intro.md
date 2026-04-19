@@ -4,6 +4,18 @@
 
 ---
 
+👥 **Integrantes**
+
+| Nombre |
+|---|
+| Juan Camilo Conrado |
+| Sergio Cadavid |
+| Mateo Chang |
+
+---
+
+---
+
 ## Descripción del Proyecto
 
 Este proyecto desarrolla un sistema de predicción de volatilidad futura del stock de **Intel Corporation (INTC)** utilizando técnicas de Machine Learning supervisado para regresión y clasificación.
