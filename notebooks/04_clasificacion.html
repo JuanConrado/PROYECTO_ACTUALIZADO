@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -475,6 +475,10 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> Primer vistazo a los 8 clasificadores. <strong>SVM</strong> lidera en AUC (0.779) seguido de cerca por Logistic Regression L2 (0.778) y L1 (0.778). <strong>Decision Tree</strong> es el peor (AUC=0.597), apenas mejor que clasificación aleatoria (0.5). XGBoost obtiene AUC=0.748 — razonable pero inferior a los modelos lineales, sugiriendo que la relación entre features y el target de clasificación es más lineal que no-lineal.</p>
+</div></blockquote>
 </section>
 <section id="tabla-de-metricas-clasificacion">
 <h2>15. Tabla de Métricas — Clasificación<a class="headerlink" href="#tabla-de-metricas-clasificacion" title="Link to this heading">#</a></h2>
@@ -501,6 +505,81 @@ Decision Tree  0.613310   0.589114 0.656361 0.620922 0.596494 0.6234 ± 0.0351 0
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Tabla Completa de Clasificación:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>Accuracy</p></th>
+<th class="head"><p>Precision</p></th>
+<th class="head"><p>Recall</p></th>
+<th class="head"><p>F1</p></th>
+<th class="head"><p>AUC</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>SVM</strong></p></td>
+<td><p>0.680</p></td>
+<td><p>0.631</p></td>
+<td><p><strong>0.812</strong></p></td>
+<td><p>0.710</p></td>
+<td><p><strong>0.779</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>LogReg L2</strong></p></td>
+<td><p><strong>0.693</strong></p></td>
+<td><p>0.662</p></td>
+<td><p>0.742</p></td>
+<td><p>0.700</p></td>
+<td><p>0.779</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>LogReg L1</strong></p></td>
+<td><p>0.694</p></td>
+<td><p>0.662</p></td>
+<td><p>0.747</p></td>
+<td><p>0.702</p></td>
+<td><p>0.778</p></td>
+</tr>
+<tr class="row-odd"><td><p>XGBoost</p></td>
+<td><p>0.671</p></td>
+<td><p>0.620</p></td>
+<td><p>0.822</p></td>
+<td><p>0.707</p></td>
+<td><p>0.748</p></td>
+</tr>
+<tr class="row-even"><td><p>Naive Bayes</p></td>
+<td><p>0.520</p></td>
+<td><p>0.501</p></td>
+<td><p><strong>1.000</strong></p></td>
+<td><p>0.668</p></td>
+<td><p>0.734</p></td>
+</tr>
+<tr class="row-odd"><td><p>KNN</p></td>
+<td><p>0.657</p></td>
+<td><p>0.604</p></td>
+<td><p>0.845</p></td>
+<td><p>0.704</p></td>
+<td><p>0.724</p></td>
+</tr>
+<tr class="row-even"><td><p>Random Forest</p></td>
+<td><p>0.645</p></td>
+<td><p>0.593</p></td>
+<td><p>0.841</p></td>
+<td><p>~0.696</p></td>
+<td><p>0.718</p></td>
+</tr>
+<tr class="row-odd"><td><p>Decision Tree</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+<td><p>0.621</p></td>
+<td><p>0.597</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Naive Bayes</strong> obtiene Recall=1.000 — clasifica todo como clase 1, lo que explica su baja accuracy (52%). Es una estrategia trivial que maximiza recall a costa de no detectar ninguna clase 0. <strong>SVM</strong> tiene el mejor balance: alto recall (0.812) con precision razonable (0.631). <strong>LogReg L1/L2</strong> son los más equilibrados y consistentes entre CV y test.</p>
+</div></blockquote>
 </section>
 <section id="matrices-de-confusion-y-curvas-roc">
 <h2>16. Matrices de Confusión y Curvas ROC<a class="headerlink" href="#matrices-de-confusion-y-curvas-roc" title="Link to this heading">#</a></h2>
@@ -524,6 +603,11 @@ Decision Tree  0.613310   0.589114 0.656361 0.620922 0.596494 0.6234 ± 0.0351 0
 <img alt="../_images/79dc799a998569fde0e01fd1fa6c27c20f7495997c20e56570b68d96e6e46510.png" src="../_images/79dc799a998569fde0e01fd1fa6c27c20f7495997c20e56570b68d96e6e46510.png" />
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Matrices de Confusión y Curvas ROC:</strong>
+Las matrices muestran que la mayoría de modelos tienen sesgo hacia predecir clase 1 (volatilidad sube), lo que se refleja en recall alto pero precision más baja. Naive Bayes es el caso extremo. Las curvas ROC muestran que SVM y Logistic Regression dominan el espacio AUC, con curvas claramente por encima de la diagonal aleatoria. Decision Tree está apenas sobre la diagonal, confirmando su pobre capacidad discriminativa.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Curvas ROC</span>
@@ -658,6 +742,46 @@ class_weight=balanced  0.693058   0.659708 0.751486 0.702613 0.778543
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Balanceo de Clases:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Estrategia</p></th>
+<th class="head"><p>Accuracy</p></th>
+<th class="head"><p>Precision</p></th>
+<th class="head"><p>Recall</p></th>
+<th class="head"><p>F1</p></th>
+<th class="head"><p>AUC</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sin balanceo</p></td>
+<td><p>0.693</p></td>
+<td><p>0.662</p></td>
+<td><p>0.742</p></td>
+<td><p>0.700</p></td>
+<td><p>0.779</p></td>
+</tr>
+<tr class="row-odd"><td><p>SMOTE</p></td>
+<td><p>0.691</p></td>
+<td><p>0.658</p></td>
+<td><p>0.749</p></td>
+<td><p>0.701</p></td>
+<td><p>0.779</p></td>
+</tr>
+<tr class="row-even"><td><p>class_weight=balanced</p></td>
+<td><p>0.693</p></td>
+<td><p>0.660</p></td>
+<td><p>0.751</p></td>
+<td><p>0.703</p></td>
+<td><p>0.779</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Las tres estrategias producen métricas casi idénticas. Esto era esperable: el dataset tiene proporción de clase 1 del <strong>48.6%</strong> — está prácticamente balanceado. <strong>ADASYN no pudo aplicarse</strong> por la misma razón (no hay suficiente desequilibrio para generar muestras sintéticas adaptativas). La conclusión es que en este problema no se requieren técnicas de rebalanceo.</p>
+</div></blockquote>
 </section>
 </section>
 

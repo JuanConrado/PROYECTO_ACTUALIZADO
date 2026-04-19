@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -621,6 +621,10 @@ Requirement already satisfied: MarkupSafe&gt;=0.9.2 in c:\users\mateo\2026\unino
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> La carga confirma <strong>11,556 observaciones sin duplicados ni nulos</strong> en las columnas esenciales. Los precios históricos muy bajos (Open/Close ~0.016 en los 70s) reflejan ajustes por splits accionarios. La estructura OHLCV está íntegra y lista para procesamiento.</p>
+</div></blockquote>
 </section>
 <section id="filtrar-periodo-moderno">
 <h2>3. Filtrar Período Moderno<a class="headerlink" href="#filtrar-periodo-moderno" title="Link to this heading">#</a></h2>
@@ -641,6 +645,10 @@ Observaciones: 7022
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> Al filtrar desde 1990, el dataset queda con <strong>7,022 observaciones</strong> (27 años). Se elimina el período 1972–1989 porque Intel tenía precios extremadamente bajos y repetidos (stock en etapas tempranas), lo que distorsionaría el cálculo de retornos logarítmicos y volatilidades. El período moderno captura mercados más maduros y líquidos.</p>
+</div></blockquote>
 </section>
 <section id="retornos-logaritmicos-y-volatilidad-rolling">
 <h2>4. Retornos Logarítmicos y Volatilidad Rolling<a class="headerlink" href="#retornos-logaritmicos-y-volatilidad-rolling" title="Link to this heading">#</a></h2>
@@ -673,6 +681,10 @@ Observaciones: 7022
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> Se calculan retornos logarítmicos diarios y volatilidades rolling en 4 ventanas (7, 14, 21, 28 días). Al final del período (octubre–noviembre 2017), INTC muestra una volatilidad de 7 días de ~2.6% y de 21 días de ~1.7% — niveles relativamente bajos, indicando un período de calma antes del cierre del dataset. La volatilidad de ventana mayor es siempre menor (efecto de suavizado).</p>
+</div></blockquote>
 </section>
 <section id="definicion-de-targets-correccion-del-shift">
 <h2>5. Definición de Targets — Corrección del Shift<a class="headerlink" href="#definicion-de-targets-correccion-del-shift" title="Link to this heading">#</a></h2>
@@ -708,6 +720,10 @@ Proporción clase 1: 0.486
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> El <strong>target de clasificación</strong> tiene 3,608 instancias de clase 0 (volatilidad baja/igual) vs 3,414 de clase 1 (volatilidad sube), con proporción de clase 1 del <strong>48.6%</strong>. Esto indica un dataset <strong>casi perfectamente balanceado</strong>, lo que simplifica el problema de clasificación y hace que las técnicas de SMOTE/ADASYN tengan impacto mínimo. Para regresión, los 3 targets son: volatilidad futura a 7, 14 y 21 días sin overlap (shift correcto).</p>
+</div></blockquote>
 </section>
 <section id="feature-engineering-52-variables">
 <h2>6. Feature Engineering — 52 Variables<a class="headerlink" href="#feature-engineering-52-variables" title="Link to this heading">#</a></h2>
@@ -774,6 +790,10 @@ Proporción clase 1: 0.486
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> Se construyen <strong>52 variables</strong> agrupadas en 6 categorías: lags de retornos (8 variables), lags de volatilidades en 4 ventanas × 7 lags (28 variables), promedios de retorno absoluto (3), derivadas OHLCV (5), rangos rolling (3) y retornos acumulados (3), más ratios de volatilidad (3). Esta riqueza de features permite al modelo capturar estructura temporal a múltiples escalas — desde el día anterior hasta 21 días atrás.</p>
+</div></blockquote>
 </section>
 <section id="dataset-modelable-y-split-temporal-75-25">
 <h2>7. Dataset Modelable y Split Temporal 75/25<a class="headerlink" href="#dataset-modelable-y-split-temporal-75-25" title="Link to this heading">#</a></h2>
@@ -833,6 +853,15 @@ Distribución test:  {0: np.int64(902), 1: np.int64(841)}
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> El split temporal 75/25 produce:</p>
+<ul class="simple">
+<li><p><strong>Regresión:</strong> Train (5,223 días, 1990–2010) / Test (1,742 días, 2010–2017)</p></li>
+<li><p><strong>Clasificación:</strong> Train (5,229 días) / Test (1,743 días)</p></li>
+</ul>
+<p>La distribución de clases en train (2,673 vs 2,556) y test (902 vs …) es casi uniforme en ambos subconjuntos, confirmando el balance natural. El período de test 2010–2017 incluye años de recuperación post-crisis y el auge tecnológico — un escenario desafiante y representativo.</p>
+</div></blockquote>
 </section>
 </section>
 

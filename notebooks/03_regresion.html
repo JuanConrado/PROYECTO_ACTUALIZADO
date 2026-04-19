@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -389,6 +389,10 @@ Fold 5: train=4353 | val=870 (2007-06-20 -&gt; 2010-12-01)
 <img alt="../_images/67678cda18c74d3f3a3a982669c19da083e967612492e3230ae94447e69bc0af.png" src="../_images/67678cda18c74d3f3a3a982669c19da083e967612492e3230ae94447e69bc0af.png" />
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> Se usa <strong>TimeSeriesSplit con 5 folds</strong> sobre el conjunto de entrenamiento (75%). Cada fold tiene 870 observaciones de validación (~3.5 años). El esquema es cronológico: el fold 1 valida 1993–1997, el fold 5 valida 2007–2010. Esto garantiza que <strong>nunca se valida con datos anteriores al entrenamiento</strong>, respetando la causalidad temporal — esencial en series financieras donde el futuro no puede usarse para predecir el pasado.</p>
+</div></blockquote>
 </section>
 <section id="modelos-benchmark-regresion">
 <h2>9. Modelos Benchmark — Regresión<a class="headerlink" href="#modelos-benchmark-regresion" title="Link to this heading">#</a></h2>
@@ -505,6 +509,46 @@ Fold 5: train=4353 | val=870 (2007-06-20 -&gt; 2010-12-01)
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Resultados de Modelos de Regresión:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>R² CV</p></th>
+<th class="head"><p>R² Test</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ridge</p></td>
+<td><p>0.1354</p></td>
+<td><p>0.0748</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lasso</p></td>
+<td><p>0.0670</p></td>
+<td><p>-0.0133</p></td>
+</tr>
+<tr class="row-even"><td><p>Random Forest</p></td>
+<td><p>-0.0110</p></td>
+<td><p>-0.2925</p></td>
+</tr>
+<tr class="row-odd"><td><p>XGBoost</p></td>
+<td><p>-0.0683</p></td>
+<td><p>-0.2602</p></td>
+</tr>
+<tr class="row-even"><td><p>Decision Tree</p></td>
+<td><p>-0.6367</p></td>
+<td><p>-1.4122</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVR</p></td>
+<td><p>-0.5681</p></td>
+<td><p>-0.5450</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Ridge es el mejor modelo</strong>, aunque con R² modesto (0.07 en test). Los modelos más complejos (RF, XGBoost, Decision Tree) muestran R² negativos, lo que indica que predicen peor que una media simple. Esto es esperable: la volatilidad futura sin overlap es un problema genuinamente difícil. Los modelos no-lineales con muchos hiperparámetros tienden a sobreajustarse al ruido en datos financieros de alta frecuencia.</p>
+</div></blockquote>
 </section>
 <section id="tablas-comparativas-regresion">
 <h2>10. Tablas Comparativas — Regresión<a class="headerlink" href="#tablas-comparativas-regresion" title="Link to this heading">#</a></h2>
@@ -543,6 +587,10 @@ Decision Tree    0.005881   0.009652  0.007517  0.788186 -1.412191        0.44
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación:</strong> La tabla confirma que <strong>Ridge domina</strong> con el menor RMSE en validación cruzada (0.00970 ± 0.00294) y el mejor R² promedio. Su tiempo de entrenamiento (0.15s) es drásticamente menor que Random Forest (11.35s) o SVR (11.27s). Decision Tree y SVR son los peores: alta varianza entre folds (inestabilidad) y tiempos elevados sin beneficio en rendimiento. Para predicción de volatilidad, la regularización L2 de Ridge resulta más apropiada que la complejidad de los árboles.</p>
+</div></blockquote>
 </section>
 <section id="graficos-real-vs-predicho-regresion">
 <h2>11. Gráficos Real vs Predicho — Regresión<a class="headerlink" href="#graficos-real-vs-predicho-regresion" title="Link to this heading">#</a></h2>
@@ -598,6 +646,11 @@ Decision Tree    0.005881   0.009652  0.007517  0.788186 -1.412191        0.44
 <img alt="../_images/317279d69965c7d58725979be20e857426366cb3881aa3863f02f7ddbc56bc81.png" src="../_images/317279d69965c7d58725979be20e857426366cb3881aa3863f02f7ddbc56bc81.png" />
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Análisis de Overfitting:</strong>
+El gráfico compara R² en train vs test para cada modelo. Ridge muestra el gap más pequeño (train~0.44, test~0.07), indicando regularización efectiva. Decision Tree tiene el gap más extremo (train muy alto, test=-1.41), evidenciando <strong>sobreajuste severo</strong> — memoriza los datos de entrenamiento pero no generaliza. XGBoost y Random Forest también muestran gaps importantes, confirmando que la complejidad no ayuda en este problema.</p>
+</div></blockquote>
 </section>
 <section id="analisis-de-residuos-completo">
 <h2>13. Análisis de Residuos Completo<a class="headerlink" href="#analisis-de-residuos-completo" title="Link to this heading">#</a></h2>
@@ -881,6 +934,18 @@ Test Jarque-Bera (Normalidad):
 <img alt="../_images/fdc183ab4ce0cf626ff03b465048fb25bb33f4b4766371445c84221b0f843135.png" src="../_images/fdc183ab4ce0cf626ff03b465048fb25bb33f4b4766371445c84221b0f843135.png" />
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Análisis de Residuos:</strong></p>
+<p><strong>Test de White (Homocedasticidad):</strong>
+Ridge, Lasso, RF, XGBoost y SVR pasan el test (p &gt; 0.05): la varianza de sus errores es constante. Solo Decision Tree falla (p=0.0004), mostrando heterocedasticidad — sus errores son mayores en ciertos rangos de volatilidad.</p>
+<p><strong>Test BDS (Independencia):</strong>
+<strong>Todos los modelos fallan</strong> (p=0.0000), indicando dependencia temporal en los residuos. Esto es normal en series financieras: existe estructura autocorrelada que los modelos no capturan completamente — evidencia de que modelos ARCH/GARCH serían complementos naturales.</p>
+<p><strong>Test Ljung-Box (Autocorrelación):</strong>
+p=0.0 en todos los modelos y todos los rezagos (10 y 20), confirmando autocorrelación significativa en los residuos. La volatilidad tiene memoria fuerte (clustering de volatilidad) que un modelo estático no captura.</p>
+<p><strong>Normalidad (Jarque-Bera):</strong>
+Todos rechazan normalidad (p=0.0000). Ridge tiene skewness=1.33 y kurtosis=5.87 (colas pesadas), típico de errores en mercados financieros. Los residuos tienen distribución leptocúrtica — eventos extremos son más frecuentes de lo que predice una normal.</p>
+</div></blockquote>
 </section>
 </section>
 

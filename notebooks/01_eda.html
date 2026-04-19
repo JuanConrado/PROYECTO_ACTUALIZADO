@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -375,6 +375,10 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Se carga el dataset completo de Kaggle con <strong>7,195 tickers</strong> de acciones y ETFs de EE.UU. Se selecciona una muestra aleatoria de 20 tickers con semilla fija (<code class="docutils literal notranslate"><span class="pre">seed=42</span></code>) para garantizar reproducibilidad. Este muestreo permite hacer un EDA representativo sin procesar los miles de archivos completos.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -638,6 +642,10 @@ dtype: int64
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El ticker de muestra tiene <strong>2,891 observaciones diarias</strong> (2005–2017) sin ningún valor nulo en ninguna columna. Las estadísticas descriptivas muestran precios bajos (media ~$4.65), típico de un stock de menor capitalización. La ausencia de nulos indica que el dataset está relativamente limpio y listo para usar.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -700,6 +708,10 @@ dtype: int64
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Se detectan 4 patrones de velas japonesas en el ticker de muestra. El <strong>Doji</strong> (cuerpo mínimo) es el más frecuente con 380 apariciones, seguido del <strong>Hammer</strong> (248). Los patrones de <strong>engulfing</strong> (envolvente alcista y bajista) son menos comunes (~99–124). Esto es esperable: los patrones más complejos ocurren con menor frecuencia.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">pattern_cols</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1052,6 +1064,10 @@ dtype: float64
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Tabla resumen de los 20 tickers seleccionados. Se observa una gran variabilidad en el número de observaciones — <code class="docutils literal notranslate"><span class="pre">hon.us.txt</span></code> tiene 12,072 filas (desde 1970) mientras que algunos tickers tienen muy pocos datos. La columna de patrones muestra que el Doji domina en todos los tickers, confirmando que es el patrón más fácil de formar.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Cargar y resumir los 20 tickers</span>
@@ -1084,6 +1100,10 @@ Name: freq_%, dtype: float64
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> En los <strong>61,251 registros totales</strong> de los 20 tickers, el <strong>Doji</strong> aparece en el 12.6% de los días y el <strong>Hammer</strong> en el 6%. Los patrones de engulfing son menos frecuentes (~4.5%). Estas frecuencias son consistentes con la literatura técnica de análisis bursátil. El Doji es tan frecuente porque solo requiere que el precio de apertura y cierre sean casi iguales.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Qué tickers tienen más/menos datos (EDA)</span>
@@ -1160,6 +1180,10 @@ Name: freq_%, dtype: float64
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El histograma de longitudes de serie muestra una distribución asimétrica a la derecha. La mayoría de los tickers tienen entre 1,600 y 3,200 observaciones (~4–9 años de historia), pero existe un outlier con 12,072 filas. Esto justifica filtrar por período moderno o seleccionar tickers con historia suficiente para entrenar modelos robustos.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Split temporal 75/25 por ticker (dejado listo)</span>
@@ -1192,6 +1216,10 @@ Test: 3018 2005-11-16 00:00:00 -&gt; 2017-11-10 00:00:00
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Se implementa el split temporal 75/25. Para <code class="docutils literal notranslate"><span class="pre">hon.us.txt</span></code>, el <strong>75% de entrenamiento</strong> abarca 9,054 días (1970–2005) y el <strong>25% de prueba</strong> cubre 3,018 días (2005–2017). Este esquema garantiza que el modelo nunca vea datos futuros durante el entrenamiento, evitando data leakage temporal — fundamental en series financieras.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Funciones de QA</span>
@@ -1638,6 +1666,10 @@ Test: 3018 2005-11-16 00:00:00 -&gt; 2017-11-10 00:00:00
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> La tabla de QA muestra que <code class="docutils literal notranslate"><span class="pre">kbsf.us.txt</span></code> y <code class="docutils literal notranslate"><span class="pre">rlog.us.txt</span></code> tienen el mayor número de días hábiles faltantes (449 y 425 respectivamente). Sin embargo, <strong>ningún ticker tiene duplicados de fecha ni inconsistencias OHLC</strong> (High &lt; Low, etc.). Los días faltantes son esperables en stocks con menor liquidez que no se negocian todos los días.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Resumen rápido: ¿hay problemas graves?</span>
@@ -1762,6 +1794,10 @@ Test: 3018 2005-11-16 00:00:00 -&gt; 2017-11-10 00:00:00
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> En promedio, los 20 tickers tienen <strong>174 días hábiles faltantes</strong> (std=147), lo que representa ~6% de los días esperados. Crucialmente, <strong>ningún ticker presenta errores OHLC graves</strong> (0 en bad_high_lt_low, bad_high_lt_openclose, bad_low_gt_openclose). Esto confirma que el dataset de Kaggle tiene buena calidad de precios.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Inspeccionar un ticker “problemático” (si aparece alguno)</span>
@@ -2174,6 +2210,10 @@ Ejemplo: [&#39;C:\\Users\\Mateo\\.cache\\kagglehub\\datasets\\borismarjanovic\\p
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El ranking de tickers combina historia, liquidez y volumen en un score compuesto. <strong>Intel (INTC)</strong> ocupa el <strong>2do lugar</strong> con 11,556 observaciones, solo 3.39% de días faltantes y un volumen medio de ~56.5 millones de acciones diarias — muy superior al resto. Esto lo hace ideal: tiene larga historia, alta liquidez y datos densos para entrenar modelos de series de tiempo.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#EDA </span>
@@ -2296,6 +2336,10 @@ Duplicados date: 0
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Se carga el dataset de INTC con <strong>11,556 registros</strong> diarios desde <strong>1972 hasta 2017</strong> (45 años de historia). Las columnas están correctamente formateadas y sin duplicados. La amplitud temporal es valiosa para capturar múltiples ciclos económicos, crisis financieras y períodos de alta y baja volatilidad.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#QA RAPIDO ST</span>
@@ -2319,6 +2363,10 @@ Porcentaje missing: 3.386 %
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> De los 11,961 días hábiles esperados entre 1972 y 2017, INTC tiene datos para 11,556, dejando <strong>405 días faltantes (3.39%)</strong>. Esta tasa es baja y normal — corresponde a días feriados no estándar, suspensiones de mercado o días sin negociación en los primeros años. No representa un problema grave para el modelado.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#GRAFICO DE CLOSE Y VOLUME </span>
@@ -2455,6 +2503,10 @@ Porcentaje missing: 3.386 %
 </table>
 </div></div></div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Los retornos logarítmicos de INTC tienen media ~0.069% diaria (ligeramente positiva, consistente con crecimiento de largo plazo) y std de 3.43% — alta volatilidad. Las volatilidades rolling de 14 y 21 días tienen medias de 2.69% y 2.73% respectivamente. El rango de <code class="docutils literal notranslate"><span class="pre">log_ret</span></code> va desde pérdidas extremas hasta ganancias extremas, típico de un stock tecnológico durante 45 años que incluye el crash del 2000.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># FEATURES DE VELAS Y DETECCION DE PATRONES QUE ME PUEDEN SERVIR PARA LO QUE QUIERO ENCAMINAR EL MODELO A FUTURO </span>
@@ -2515,6 +2567,10 @@ Name: freq_%, dtype: float64
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> En los 11,556 días de INTC, el <strong>Doji</strong> aparece 1,760 veces (15.2% de los días) — el más frecuente, indicando indecisión del mercado. Los patrones de engulfing alcista y bajista son simétricos (~4% cada uno), lo que sugiere que el mercado de INTC no tiene un sesgo direccional dominante en estos patrones. El Hammer aparece en el 3.5% de los días, señal técnica de posible reversión alcista.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># EN ESTE CASO MARCAMOS A DOJI PERO SOLO ES UN EJEMPLO </span>
@@ -2561,6 +2617,10 @@ Test: 2889 2006-05-24 00:00:00 -&gt; 2017-11-10 00:00:00
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Para INTC, el split 75/25 queda: <strong>train = 8,667 observaciones</strong> (1972–2006) y <strong>test = 2,889 observaciones</strong> (2006–2017). El período de prueba abarca los últimos 11 años, incluyendo la crisis financiera de 2008 y la recuperación posterior — un período desafiante y representativo para evaluar la capacidad predictiva del modelo.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PRUEBA</span>

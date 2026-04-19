@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -400,6 +400,11 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — XGBoost + LIME:</strong>
+La importancia global de XGBoost (feature importance nativa) muestra qué variables reduce más la función de pérdida. Se espera que los <strong>lags de volatilidad reciente</strong> (vol_7_lag1, vol_14_lag1) dominen, seguidos de los <strong>lags de retornos</strong>. LIME (Local Interpretable Model-agnostic Explanations) complementa esto con una explicación local: para una predicción específica en el conjunto de test, muestra cuáles features empujaron la predicción hacia arriba o hacia abajo, permitiendo entender el razonamiento del modelo caso a caso — fundamental para la confianza en entornos reales.</p>
+</div></blockquote>
 </section>
 <section id="comparacion-estadistica">
 <h2>21. Comparación Estadística<a class="headerlink" href="#comparacion-estadistica" title="Link to this heading">#</a></h2>
@@ -449,6 +454,11 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Test de Diebold-Mariano:</strong>
+El test DM compara la precisión predictiva entre pares de modelos de regresión. Un p-valor &lt; 0.05 indica que la diferencia en errores de predicción es estadísticamente significativa, no producto del azar. Si Ridge tiene errores significativamente menores que Decision Tree (p&lt;0.05), se concluye formalmente que Ridge es superior. Esto va más allá de simplemente comparar RMSE — cuantifica la certeza estadística de la diferencia.</p>
+</div></blockquote>
 </section>
 <section id="bootstrap-intervalos-de-confianza">
 <h3>21.2 Bootstrap — Intervalos de Confianza<a class="headerlink" href="#bootstrap-intervalos-de-confianza" title="Link to this heading">#</a></h3>
@@ -502,6 +512,11 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Bootstrap (Intervalos de Confianza):</strong>
+El bootstrap resamplea los datos de test 1,000 veces para estimar la distribución de cada métrica. Los intervalos de confianza al 95% permiten responder: ¿el AUC de 0.779 de SVM podría ser 0.75 o 0.80 en otro período? Si los intervalos de dos modelos se solapan, la diferencia no es significativa. Esto es crítico: un modelo con AUC=0.780 pero IC=[0.750, 0.810] puede ser equivalente a uno con AUC=0.775 e IC=[0.760, 0.790].</p>
+</div></blockquote>
 </section>
 <section id="test-de-delong-clasificacion">
 <h3>21.3 Test de DeLong (Clasificación)<a class="headerlink" href="#test-de-delong-clasificacion" title="Link to this heading">#</a></h3>
@@ -554,6 +569,11 @@ document.write(`
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interpretación — Test de DeLong:</strong>
+El test de DeLong compara curvas ROC completas entre clasificadores, no solo el AUC puntual. Evalúa si la diferencia de AUC entre dos modelos es estadísticamente significativa usando la covarianza entre las estimaciones. Por ejemplo, si SVM (AUC=0.779) vs LogReg L2 (AUC=0.778) da p=0.85, la diferencia no es significativa — ambos son estadísticamente equivalentes. Esto evita afirmar falsamente que un modelo «gana» cuando la diferencia podría ser ruido.</p>
+</div></blockquote>
 </section>
 </section>
 </section>
