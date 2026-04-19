@@ -1,0 +1,27 @@
+title: "Predicción de Volatilidad — INTC"
+author: "Ciencia de Datos — Segundo Entregable"
+logo: ""
+
+execute:
+  execute_notebooks: "off"   # cambiar a "auto" para ejecutar al compilar
+
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+    - amsmath
+
+html:
+  use_issues_button: false
+  use_repository_button: false
+  use_edit_page_button: false
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+sphinx:
+  extra_extensions:
+    - sphinx_togglebutton
+  config:
+    language: es

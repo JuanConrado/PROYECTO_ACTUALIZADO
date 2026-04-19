@@ -1,0 +1,18 @@
+format: jb-book
+root: intro
+
+chapters:
+  - file: notebooks/01_eda
+    title: "1. Análisis Exploratorio de Datos (EDA)"
+  - file: notebooks/02_datos_y_features
+    title: "2. Preparación de Datos y Feature Engineering"
+  - file: notebooks/03_regresion
+    title: "3. Modelos de Regresión"
+  - file: notebooks/04_clasificacion
+    title: "4. Modelos de Clasificación"
+  - file: notebooks/05_optimizacion
+    title: "5. Optimización de Hiperparámetros y Computacional"
+  - file: notebooks/06_interpretabilidad_y_estadistica
+    title: "6. Interpretabilidad y Comparación Estadística"
+  - file: notebooks/07_conclusiones
+    title: "7. Conclusiones"
