@@ -1,0 +1,63 @@
+# ============================================================
+# INTC-VolForecast — Configuración del Jupyter Book
+# ============================================================
+
+title: "INTC-VolForecast"
+author: "Juan Camilo Conrado · Sergio Cadavid · Mateo Chang"
+copyright: "2026"
+logo: ""
+
+# Solo renderizar; no re-ejecutar al construir.
+# Para reproducibilidad completa: jupyter execute notebook.ipynb por separado.
+execute:
+  execute_notebooks: "off"
+  timeout: 600
+
+# Parsing extendido
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+    - amsmath
+    - linkify
+    - substitution
+
+# HTML
+html:
+  favicon: ""
+  use_issues_button: true
+  use_repository_button: true
+  use_edit_page_button: false
+  baseurl: ""
+  comments:
+    hypothesis: false
+  extra_navbar: |
+    <div>
+      INTC-VolForecast — Universidad del Norte
+    </div>
+
+# Repositorio
+repository:
+  url: https://github.com/JuanConrado/PROYECTO_ACTUALIZADO
+  branch: v2
+
+# LaTeX (para PDF opcional)
+latex:
+  latex_documents:
+    targetname: book.tex
+  latex_engine: pdflatex
+
+# Bibliografía
+bibtex_bibfiles:
+  - refs.bib
+
+# Sphinx
+sphinx:
+  extra_extensions:
+    - sphinx_togglebutton
+    - sphinx.ext.viewcode
+  config:
+    language: es
+    html_theme_options:
+      navigation_with_keys: false
+    bibtex_reference_style: author_year

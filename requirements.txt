@@ -1,0 +1,47 @@
+# ============================================================
+# INTC-VolForecast — versiones congeladas para reproducibilidad
+# ============================================================
+
+# --- Core ---
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.8.4
+seaborn==0.13.2
+scipy==1.13.0
+
+# --- Storage ---
+pyarrow==16.1.0
+joblib==1.4.2
+
+# --- ML clásico ---
+scikit-learn==1.4.2
+xgboost==2.0.3
+imbalanced-learn==0.12.2
+
+# --- ML avanzado ---
+lightgbm==4.3.0
+catboost==1.2.5
+tensorflow==2.16.1
+
+# --- Optimización ---
+optuna==3.6.1
+deap==1.4.1
+
+# --- Series de tiempo y econometría ---
+statsmodels==0.14.2
+arch==7.0.0
+pmdarima==2.0.4
+
+# --- Interpretabilidad ---
+lime==0.2.0.1
+shap==0.45.0
+
+# --- Jupyter Book ---
+jupyter-book==1.0.0
+jupyter==1.0.0
+notebook==7.2.0
+ipykernel==6.29.4
+nbformat==5.10.4
+
+# --- Tests ---
+pytest==8.2.1
