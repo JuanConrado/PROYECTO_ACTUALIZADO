@@ -215,13 +215,9 @@ class HVRF(BaseEstimator, RegressorMixin):
         proba = self.router_.predict_proba(X_router.values)
 
         if self.mixture == "argmax":
-            # argmax devuelve índice de columna; convertir al label real
-            router_classes = self.router_.named_steps["model"].classes_
-            chosen_idx = np.argmax(proba, axis=1)
-            chosen = router_classes[chosen_idx].astype(int)
+            chosen = np.argmax(proba, axis=1)
             preds = np.empty(len(X))
-            for r in np.unique(chosen):
-                r = int(r)
+            for r in range(self.n_regimes):
                 mask = chosen == r
                 if mask.sum() == 0:
                     continue
@@ -235,24 +231,15 @@ class HVRF(BaseEstimator, RegressorMixin):
             return preds
 
         # Mezcla suave (default)
-        # IMPORTANTE: proba.shape[1] puede ser menor que self.n_regimes
-        # si algún régimen no tuvo muestras en train (router sklearn solo
-        # aprendió las clases vistas). Tomamos el número real de clases.
-        n_regimes_real = proba.shape[1]
-        # Mapeo: las columnas de proba corresponden a las clases que el router
-        # vio durante el entrenamiento, en el orden de classes_
-        router_classes = self.router_.named_steps["model"].classes_
-
-        preds_per_regime = np.zeros((len(X), n_regimes_real))
-        for col_idx, r in enumerate(router_classes):
-            r = int(r)
+        preds_per_regime = np.zeros((len(X), self.n_regimes))
+        for r in range(self.n_regimes):
             spec = self.specialists_.get(r)
             if spec is None:
-                preds_per_regime[:, col_idx] = self.global_fallback_.predict(
+                preds_per_regime[:, r] = self.global_fallback_.predict(
                     X_router.values
                 )
             else:
-                preds_per_regime[:, col_idx] = spec.predict(X_router.values)
+                preds_per_regime[:, r] = spec.predict(X_router.values)
 
         return np.sum(proba * preds_per_regime, axis=1)
 
