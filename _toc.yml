@@ -50,3 +50,5 @@ parts:
     chapters:
       - file: notebooks/13_comparacion_final_y_conclusiones
         title: "13. Comparación Final y Conclusiones"
+      - file: notebooks/15_referencias
+        title: "15. Referencias Bibliográficas"
