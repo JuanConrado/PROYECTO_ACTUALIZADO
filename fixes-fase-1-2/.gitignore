@@ -1,0 +1,11 @@
+
+# Añadido por apply_all_fixes.py
+# Carpetas temporales del proceso de desarrollo
+notebook-14/
+fixes-opcion-a/
+# Builds del Jupyter Book
+_build/
+# Caches
+.pytest_cache/
+__pycache__/
+.ipynb_checkpoints/

@@ -37,12 +37,14 @@ parts:
       - file: notebooks/10_interpretabilidad
         title: "10. Interpretabilidad"
 
-  - caption: "Parte IV — Modelos Avanzados y Original"
+  - caption: "Parte IV — Modelos Avanzados y Modelo Original"
     chapters:
       - file: notebooks/11_modelos_avanzados
         title: "11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)"
       - file: notebooks/12_hvrf_modelo_original
         title: "12. HVRF — Modelo Original"
+      - file: notebooks/14_optimizacion_y_refinamientos_hvrf
+        title: "14. Optimización Computacional y Refinamientos HVRF"
 
   - caption: "Parte V — Síntesis"
     chapters:
