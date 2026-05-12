@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(jupyter-book build *)",
+      "Bash(python *)",
+      "Bash(git push *)",
+      "PowerShell(start _build\\\\html\\\\index.html)",
+      "Bash(pip show *)",
+      "Bash(pip install *)",
+      "Bash(ghp-import *)",
+      "Bash(git fetch *)",
+      "Bash(git ls-tree *)",
+      "Bash(git ls-remote *)"
+    ]
+  }
+}
