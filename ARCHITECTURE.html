@@ -1,0 +1,715 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Arquitectura y decisiones de diseño — INTC-VolForecast v2 &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ARCHITECTURE';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ARCHITECTURE.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Arquitectura y decisiones de diseño — INTC-VolForecast v2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principios-no-negociables">1. Principios no negociables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiempo-sagrado">1.1 Tiempo sagrado</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-o-no-existe">1.2 Pipeline o no existe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notebooks-independientes">1.3 Notebooks independientes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibilidad-determinista">1.4 Reproducibilidad determinista</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lo-que-se-afirma-se-mide">1.5 Lo que se afirma se mide</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-de-diseno-con-justificacion">2. Decisiones de diseño con justificación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-split-70-15-15-y-no-75-25">2.1 ¿Por qué split 70/15/15 y no 75/25?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-shift-sin-overlap">2.2 ¿Por qué shift sin overlap?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-features-causales">2.3 ¿Por qué features causales?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-pipeline-manual-dentro-de-optuna-deap">2.4 ¿Por qué Pipeline manual dentro de Optuna/DEAP?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-delong-real-y-no-bootstrap-de-auc">2.5 ¿Por qué DeLong real y no bootstrap de AUC?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-garch-como-benchmark">2.6 ¿Por qué GARCH como benchmark?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-tres-regimenes-en-hvrf-y-no-dos-o-cinco">2.7 ¿Por qué tres regímenes en HVRF y no dos o cinco?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-mezcla-suave-y-no-argmax">2.8 ¿Por qué mezcla suave y no argmax?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trazabilidad-de-archivos">3. Trazabilidad de archivos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-de-codigo">4. Convenciones de código</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estilo-de-visualizacion">5. Estilo de visualización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#politica-de-error-y-debugging">6. Política de error y debugging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipo-y-trazabilidad-de-outputs">7. Tipo y trazabilidad de outputs</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="arquitectura-y-decisiones-de-diseno-intc-volforecast-v2">
+<h1>Arquitectura y decisiones de diseño — INTC-VolForecast v2<a class="headerlink" href="#arquitectura-y-decisiones-de-diseno-intc-volforecast-v2" title="Link to this heading">#</a></h1>
+<p>Este documento es la <strong>fuente de verdad</strong> sobre por qué el proyecto está estructurado como está. Cualquier cambio futuro debe respetar (o cambiar conscientemente) los principios aquí descritos.</p>
+<hr class="docutils" />
+<section id="principios-no-negociables">
+<h2>1. Principios no negociables<a class="headerlink" href="#principios-no-negociables" title="Link to this heading">#</a></h2>
+<section id="tiempo-sagrado">
+<h3>1.1 Tiempo sagrado<a class="headerlink" href="#tiempo-sagrado" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ningún <code class="docutils literal notranslate"><span class="pre">train_test_split(shuffle=True)</span></code>.</p></li>
+<li><p>Ningún <code class="docutils literal notranslate"><span class="pre">KFold</span></code> simple.</p></li>
+<li><p>Validación cruzada exclusivamente con <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code> o walk-forward.</p></li>
+<li><p>Tests automáticos verifican que <code class="docutils literal notranslate"><span class="pre">train.date.max()</span> <span class="pre">&lt;</span> <span class="pre">test.date.min()</span></code>.</p></li>
+</ul>
+</section>
+<section id="pipeline-o-no-existe">
+<h3>1.2 Pipeline o no existe<a class="headerlink" href="#pipeline-o-no-existe" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Cualquier paso ajustable sobre datos (imputer, scaler, balanceo, selección de features) vive <strong>dentro</strong> de un <code class="docutils literal notranslate"><span class="pre">sklearn.pipeline.Pipeline</span></code> o <code class="docutils literal notranslate"><span class="pre">imblearn.pipeline.Pipeline</span></code>.</p></li>
+<li><p>Nunca se ajusta un scaler sobre el dataset completo antes del split.</p></li>
+</ul>
+</section>
+<section id="notebooks-independientes">
+<h3>1.3 Notebooks independientes<a class="headerlink" href="#notebooks-independientes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Cada notebook lee de disco lo que necesita, escribe a disco lo que produce.</p></li>
+<li><p>No hay variables compartidas entre kernels.</p></li>
+<li><p>Si quieres correr el notebook 09 sin haber corrido el 04, basta con que existan los archivos en <code class="docutils literal notranslate"><span class="pre">outputs/predictions/</span></code>.</p></li>
+</ul>
+</section>
+<section id="reproducibilidad-determinista">
+<h3>1.4 Reproducibilidad determinista<a class="headerlink" href="#reproducibilidad-determinista" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Una sola fuente de verdad para <code class="docutils literal notranslate"><span class="pre">RANDOM_STATE</span></code> (en <code class="docutils literal notranslate"><span class="pre">src/config.py</span></code>).</p></li>
+<li><p>Versiones de librerías congeladas en <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p></li>
+<li><p>Una receta <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">all</span></code> reproduce todo desde cero.</p></li>
+</ul>
+</section>
+<section id="lo-que-se-afirma-se-mide">
+<h3>1.5 Lo que se afirma se mide<a class="headerlink" href="#lo-que-se-afirma-se-mide" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>«El modelo A es mejor que B» requiere prueba estadística + IC bootstrap.</p></li>
+<li><p>Corrección de Bonferroni para comparaciones múltiples.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="decisiones-de-diseno-con-justificacion">
+<h2>2. Decisiones de diseño con justificación<a class="headerlink" href="#decisiones-de-diseno-con-justificacion" title="Link to this heading">#</a></h2>
+<section id="por-que-split-70-15-15-y-no-75-25">
+<h3>2.1 ¿Por qué split 70/15/15 y no 75/25?<a class="headerlink" href="#por-que-split-70-15-15-y-no-75-25" title="Link to this heading">#</a></h3>
+<p>El proyecto v1 usaba 75% train / 25% test. Pasamos a <strong>70% train / 15% validation / 15% test</strong> porque:</p>
+<ol class="arabic simple">
+<li><p>La rúbrica del Dr. Lihki recomienda evaluación rigurosa con conjunto de validación separado.</p></li>
+<li><p>Permite usar el set de validation para selección de modelos (early stopping, comparación de variantes) <strong>sin contaminar el test final</strong>.</p></li>
+<li><p>Para series financieras de ~7,000 observaciones, 15% (≈1,000 días, ~4 años) es suficiente para evaluación robusta.</p></li>
+</ol>
+</section>
+<section id="por-que-shift-sin-overlap">
+<h3>2.2 ¿Por qué shift sin overlap?<a class="headerlink" href="#por-que-shift-sin-overlap" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">target_vol_7</span> <span class="pre">=</span> <span class="pre">vol_7.shift(-7)</span></code> (no <code class="docutils literal notranslate"><span class="pre">shift(-1)</span></code>).</p>
+<p>Si usáramos <code class="docutils literal notranslate"><span class="pre">shift(-1)</span></code>:</p>
+<ul class="simple">
+<li><p>La ventana del target abarca de <code class="docutils literal notranslate"><span class="pre">t+1</span></code> a <code class="docutils literal notranslate"><span class="pre">t+7</span></code>.</p></li>
+<li><p>La ventana de <code class="docutils literal notranslate"><span class="pre">vol_7</span></code> (feature actual) abarca de <code class="docutils literal notranslate"><span class="pre">t-6</span></code> a <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p></li>
+<li><p>Comparten 0 días en <code class="docutils literal notranslate"><span class="pre">t+1</span></code>, pero la <strong>proximidad induce correlación espuria</strong>.</p></li>
+</ul>
+<p>Más grave: usar <code class="docutils literal notranslate"><span class="pre">shift(-1)</span></code> con ventana de 7 días genera <strong>6 días de overlap entre targets consecutivos</strong>, inflando R² hasta valores irreales (~0.71 en v1). El shift de 7 elimina este efecto.</p>
+</section>
+<section id="por-que-features-causales">
+<h3>2.3 ¿Por qué features causales?<a class="headerlink" href="#por-que-features-causales" title="Link to this heading">#</a></h3>
+<p>Toda feature en fecha <code class="docutils literal notranslate"><span class="pre">t</span></code> debe poder calcularse usando solo datos de fechas <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">t</span></code>. El test <code class="docutils literal notranslate"><span class="pre">tests/test_features.py</span></code> lo verifica automáticamente. Esto incluye:</p>
+<ul class="simple">
+<li><p>Lags: solo <code class="docutils literal notranslate"><span class="pre">shift(positivo)</span></code>.</p></li>
+<li><p>Rolling: solo ventana hacia atrás.</p></li>
+<li><p>Calendarios: solo basados en <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p></li>
+<li><p>Estadísticos: nunca calculados sobre el dataset completo y luego «aplicados».</p></li>
+</ul>
+</section>
+<section id="por-que-pipeline-manual-dentro-de-optuna-deap">
+<h3>2.4 ¿Por qué Pipeline manual dentro de Optuna/DEAP?<a class="headerlink" href="#por-que-pipeline-manual-dentro-de-optuna-deap" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> y <code class="docutils literal notranslate"><span class="pre">RandomizedSearchCV</span></code> aceptan un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> como estimador y respetan automáticamente la encapsulación en cada fold. Pero <strong>Optuna y DEAP usan funciones objetivo manuales</strong>, donde es fácil olvidar el preprocesamiento y meter leakage por accidente.</p>
+<p>Solución: dentro de cada <code class="docutils literal notranslate"><span class="pre">objective(trial)</span></code> y cada <code class="docutils literal notranslate"><span class="pre">eval_individual(ind)</span></code>, se construye explícitamente un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> y se ajusta dentro del loop de <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code>. Nunca se transforma el dataset completo y luego se itera.</p>
+</section>
+<section id="por-que-delong-real-y-no-bootstrap-de-auc">
+<h3>2.5 ¿Por qué DeLong real y no bootstrap de AUC?<a class="headerlink" href="#por-que-delong-real-y-no-bootstrap-de-auc" title="Link to this heading">#</a></h3>
+<p>El test de DeLong (1988) usa la teoría de matrices de influencia para estimar la varianza del AUC asintóticamente. Es <strong>el estándar académico</strong> y es lo que el Dr. Lihki enseña en la sección 9.9 de sus notas.</p>
+<p>El proyecto v1 implementaba un «DeLong» que en realidad era bootstrap. Renombrarlo no es suficiente: si el profesor pregunta «¿implementaron DeLong?» y la respuesta honesta es «no, hicimos bootstrap», queda mal. Por eso <code class="docutils literal notranslate"><span class="pre">src/stats_tests.py</span></code> incluye una implementación correcta basada en matrices de influencia.</p>
+</section>
+<section id="por-que-garch-como-benchmark">
+<h3>2.6 ¿Por qué GARCH como benchmark?<a class="headerlink" href="#por-que-garch-como-benchmark" title="Link to this heading">#</a></h3>
+<p>GARCH(1,1) es el <strong>estándar de oro</strong> para predicción de volatilidad financiera desde Bollerslev (1986). Cualquier modelo de ML que prediga volatilidad <strong>debe</strong> ser comparado contra GARCH para ser defendible.</p>
+<p>Si nuestro mejor ML no le gana a GARCH, eso no es un fracaso — es un hallazgo legítimo: las señales no-lineales no aportan más que la dinámica de varianza condicional ya capturada por GARCH. Lo reportamos honestamente.</p>
+</section>
+<section id="por-que-tres-regimenes-en-hvrf-y-no-dos-o-cinco">
+<h3>2.7 ¿Por qué tres regímenes en HVRF y no dos o cinco?<a class="headerlink" href="#por-que-tres-regimenes-en-hvrf-y-no-dos-o-cinco" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Dos regímenes</strong> (calma/crisis): no captura el período de transición, donde está la mayor incertidumbre.</p></li>
+<li><p><strong>Cinco regímenes</strong>: en train (~5,000 días) implica ~1,000 días por régimen — insuficiente para entrenar un modelo robusto por categoría, especialmente para los regímenes extremos.</p></li>
+<li><p><strong>Tres regímenes</strong> (low/med/high): balance óptimo entre granularidad y muestras por régimen (~1,700 días por categoría en train).</p></li>
+</ul>
+<p>Los límites se calculan como <strong>terciles de <code class="docutils literal notranslate"><span class="pre">vol_21</span></code> sobre el train</strong>, y se aplican fijos al test. Esto evita leakage temporal en la asignación de regímenes.</p>
+</section>
+<section id="por-que-mezcla-suave-y-no-argmax">
+<h3>2.8 ¿Por qué mezcla suave y no argmax?<a class="headerlink" href="#por-que-mezcla-suave-y-no-argmax" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ŷ = Σ P(régimen | X) · ŷ_régimen
+</pre></div>
+</div>
+<p>vs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ŷ</span> <span class="o">=</span> <span class="n">ŷ_argmax</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="n">régimen</span> <span class="o">|</span> <span class="n">X</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>La mezcla suave:</p>
+<ol class="arabic simple">
+<li><p>Es <strong>diferenciable</strong>, lo que evita saltos discontinuos en días de transición de régimen.</p></li>
+<li><p><strong>Captura la incertidumbre del router</strong>: si el router asigna probabilidades 0.45/0.35/0.20, la predicción mezcla las tres en lugar de descartar dos.</p></li>
+<li><p>Tiene <strong>menor varianza</strong> que argmax en validación.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="trazabilidad-de-archivos">
+<h2>3. Trazabilidad de archivos<a class="headerlink" href="#trazabilidad-de-archivos" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>data/raw/intc.us.txt
+   ├── 01_eda.ipynb (lectura)
+   └── data/interim/intc_clean.parquet (escrita)
+        └── 02_features_and_targets.ipynb
+             └── data/processed/{features, train_*, test_*}.parquet
+                  ├── 03_benchmarks_temporales.ipynb
+                  ├── 04_regresion_ml.ipynb
+                  │    └── outputs/predictions/reg_test_preds.parquet
+                  │    └── outputs/models/{model_name}.joblib
+                  ├── 05_clasificacion_ml.ipynb
+                  │    └── outputs/predictions/clf_test_probs.parquet
+                  ├── 06_balanceo_clases.ipynb
+                  ├── 07_optimizacion_hiperparametros.ipynb
+                  │    └── outputs/models/{xgb,ridge}_optuna.joblib
+                  ├── 08_residuos_y_diagnosticos.ipynb
+                  ├── 09_comparacion_estadistica.ipynb
+                  ├── 10_interpretabilidad.ipynb
+                  ├── 11_modelos_avanzados.ipynb
+                  ├── 12_hvrf_modelo_original.ipynb
+                  │    └── outputs/models/hvrf_final.joblib
+                  └── 13_comparacion_final_y_conclusiones.ipynb
+                       └── outputs/metrics/all_metrics.json
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="convenciones-de-codigo">
+<h2>4. Convenciones de código<a class="headerlink" href="#convenciones-de-codigo" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Nombres de variables</strong>: snake_case en español o inglés (consistente por archivo).</p></li>
+<li><p><strong>Random state</strong>: siempre <code class="docutils literal notranslate"><span class="pre">RANDOM_STATE</span> <span class="pre">=</span> <span class="pre">42</span></code> (importado de <code class="docutils literal notranslate"><span class="pre">src/config.py</span></code>).</p></li>
+<li><p><strong>Fechas</strong>: <code class="docutils literal notranslate"><span class="pre">pd.Timestamp</span></code> o <code class="docutils literal notranslate"><span class="pre">datetime.date</span></code>, nunca strings.</p></li>
+<li><p><strong>Paths</strong>: <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code>, nunca strings con barras.</p></li>
+<li><p><strong>DataFrames</strong>: index reseteado tras cualquier filter (<code class="docutils literal notranslate"><span class="pre">.reset_index(drop=True)</span></code>).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="estilo-de-visualizacion">
+<h2>5. Estilo de visualización<a class="headerlink" href="#estilo-de-visualizacion" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Paleta unificada en <code class="docutils literal notranslate"><span class="pre">src/viz.py</span></code>.</p></li>
+<li><p>Estilo <code class="docutils literal notranslate"><span class="pre">seaborn-v0_8-whitegrid</span></code> por defecto.</p></li>
+<li><p>Tamaño estándar de figura: <code class="docutils literal notranslate"><span class="pre">(12,</span> <span class="pre">4)</span></code> para series temporales, <code class="docutils literal notranslate"><span class="pre">(10,</span> <span class="pre">6)</span></code> para distribuciones.</p></li>
+<li><p>Todos los plots con <code class="docutils literal notranslate"><span class="pre">plt.tight_layout()</span></code> antes de <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>.</p></li>
+<li><p>Exportar versión PNG a <code class="docutils literal notranslate"><span class="pre">outputs/figures/</span></code> cuando sea para sustentación.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="politica-de-error-y-debugging">
+<h2>6. Política de error y debugging<a class="headerlink" href="#politica-de-error-y-debugging" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Si un test falla → el <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> aborta el build. No hay book sin tests pasando.</p></li>
+<li><p>Si un modelo no converge → se reporta el error en el notebook (no se oculta), se discute en interpretación.</p></li>
+<li><p>Si una librería opcional (LSTM, CatBoost) no está disponible → se documenta en el notebook 11 como limitación, se continúa sin ella.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="tipo-y-trazabilidad-de-outputs">
+<h2>7. Tipo y trazabilidad de outputs<a class="headerlink" href="#tipo-y-trazabilidad-de-outputs" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tipo de output</p></th>
+<th class="head"><p>Carpeta</p></th>
+<th class="head"><p>Formato</p></th>
+<th class="head"><p>Quién lo lee</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Modelo entrenado</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">outputs/models/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.joblib</span></code></p></td>
+<td><p>NB siguientes, sustentación</p></td>
+</tr>
+<tr class="row-odd"><td><p>Predicciones por modelo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">outputs/predictions/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.parquet</span></code></p></td>
+<td><p>NB 09, 13</p></td>
+</tr>
+<tr class="row-even"><td><p>Métricas por modelo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">outputs/metrics/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.json</span></code></p></td>
+<td><p>NB 13</p></td>
+</tr>
+<tr class="row-odd"><td><p>Figura individual</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">outputs/figures/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.png</span></code> (300 dpi)</p></td>
+<td><p>Sustentación</p></td>
+</tr>
+<tr class="row-even"><td><p>Dataset procesado</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.parquet</span></code></p></td>
+<td><p>NB siguientes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Todos los nombres de archivo siguen el patrón <code class="docutils literal notranslate"><span class="pre">{descripcion_clara}.{ext}</span></code> (sin espacios, sin caracteres especiales).</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principios-no-negociables">1. Principios no negociables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiempo-sagrado">1.1 Tiempo sagrado</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-o-no-existe">1.2 Pipeline o no existe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notebooks-independientes">1.3 Notebooks independientes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibilidad-determinista">1.4 Reproducibilidad determinista</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lo-que-se-afirma-se-mide">1.5 Lo que se afirma se mide</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-de-diseno-con-justificacion">2. Decisiones de diseño con justificación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-split-70-15-15-y-no-75-25">2.1 ¿Por qué split 70/15/15 y no 75/25?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-shift-sin-overlap">2.2 ¿Por qué shift sin overlap?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-features-causales">2.3 ¿Por qué features causales?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-pipeline-manual-dentro-de-optuna-deap">2.4 ¿Por qué Pipeline manual dentro de Optuna/DEAP?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-delong-real-y-no-bootstrap-de-auc">2.5 ¿Por qué DeLong real y no bootstrap de AUC?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-garch-como-benchmark">2.6 ¿Por qué GARCH como benchmark?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-tres-regimenes-en-hvrf-y-no-dos-o-cinco">2.7 ¿Por qué tres regímenes en HVRF y no dos o cinco?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-mezcla-suave-y-no-argmax">2.8 ¿Por qué mezcla suave y no argmax?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trazabilidad-de-archivos">3. Trazabilidad de archivos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-de-codigo">4. Convenciones de código</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estilo-de-visualizacion">5. Estilo de visualización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#politica-de-error-y-debugging">6. Política de error y debugging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipo-y-trazabilidad-de-outputs">7. Tipo y trazabilidad de outputs</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

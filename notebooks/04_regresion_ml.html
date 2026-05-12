@@ -1,0 +1,989 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Modelos de Regresión (ML) &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/04_regresion_ml';</script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="5. Modelos de Clasificación (ML)" href="05_clasificacion_ml.html" />
+    <link rel="prev" title="3. Benchmarks de Series de Tiempo" href="03_benchmarks_temporales.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Modelo Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_optimizacion_y_refinamientos_hvrf.html">14. Optimización Computacional y Refinamientos HVRF</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_referencias.html">15. Referencias Bibliográficas</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/04_regresion_ml.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. Modelos de Regresión (ML)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-metodologica-horizonte-de-evaluacion">Decisión metodológica: horizonte de evaluación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos">2. Cargar datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-cruzada-temporal-con-timeseriessplit">3. Validación cruzada temporal con TimeSeriesSplit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definir-modelos-y-entrenar">4. Definir modelos y entrenar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tablas-comparativas">5. Tablas comparativas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-vs-predicho">6. Real vs Predicho</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-overfitting-r2-train-vs-test">7. Análisis de overfitting (R² train vs test)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-predicciones-modelos-y-metricas">8. Persistir predicciones, modelos y métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">9. Resumen del notebook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelos-de-regresion-ml">
+<h1>4. Modelos de Regresión (ML)<a class="headerlink" href="#modelos-de-regresion-ml" title="Link to this heading">#</a></h1>
+<p><strong>Curso:</strong> Machine Learning · Pregrado en Ciencia de Datos · Universidad del Norte
+<strong>Docente:</strong> Dr. Lihki Rubio
+<strong>Equipo:</strong> Juan Camilo Conrado · Sergio Cadavid · Mateo Chang</p>
+<hr class="docutils" />
+<p>Este notebook entrena los <strong>8 modelos de regresión obligatorios</strong> sobre el target <code class="docutils literal notranslate"><span class="pre">target_vol_7</span></code> y compara su desempeño con los benchmarks econométricos del notebook 03.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>Familia</p></th>
+<th class="head"><p>Justificación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>KNN Regressor</strong></p></td>
+<td><p>Basado en distancia</p></td>
+<td><p>Cap. 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Ridge</strong></p></td>
+<td><p>Lineal regularizado L2</p></td>
+<td><p>Hoerl &amp; Kennard (1970) — Cap. 3, referencia metodológica</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Lasso</strong></p></td>
+<td><p>Lineal regularizado L1</p></td>
+<td><p>Tibshirani (1996) — Cap. 3, selección de features</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ElasticNet</strong></p></td>
+<td><p>Lineal L1+L2</p></td>
+<td><p>Generaliza Ridge y Lasso</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Decision Tree</strong></p></td>
+<td><p>Árbol no-paramétrico</p></td>
+<td><p>Cap. 5 — bloque base de RF/XGB</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Random Forest</strong></p></td>
+<td><p>Bagging de árboles</p></td>
+<td><p>Breiman (2001) — Cap. 5, ensamble por varianza</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>SVR</strong></p></td>
+<td><p>Kernel rbf</p></td>
+<td><p>Cap. 6 — modelo no-lineal</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>XGBoost</strong></p></td>
+<td><p>Boosting de árboles</p></td>
+<td><p>Chen &amp; Guestrin (2016) — Cap. 5, ensamble por sesgo</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Política metodológica:</strong></p>
+<ul class="simple">
+<li><p>Validación cruzada interna: <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit(n_splits=5)</span></code> sobre train+val.</p></li>
+<li><p>Evaluación final sobre <strong>test holdout</strong> (15% más reciente).</p></li>
+<li><p>Todos los modelos viven dentro de un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> para garantizar ausencia de leakage.</p></li>
+<li><p>Los hiperparámetros aquí son los <strong>defaults razonables</strong>; la optimización formal se deja al notebook 07.</p></li>
+</ul>
+<section id="decision-metodologica-horizonte-de-evaluacion">
+<h2>Decisión metodológica: horizonte de evaluación<a class="headerlink" href="#decision-metodologica-horizonte-de-evaluacion" title="Link to this heading">#</a></h2>
+<p>Los targets <code class="docutils literal notranslate"><span class="pre">target_vol_7</span></code>, <code class="docutils literal notranslate"><span class="pre">target_vol_14</span></code> y <code class="docutils literal notranslate"><span class="pre">target_vol_21</span></code> se construyen
+en el notebook 02 (NB 02) para los <strong>3 horizontes</strong> declarados en el alcance
+del proyecto.</p>
+<p>Sin embargo, la <strong>evaluación cuantitativa de modelos</strong> se concentra
+exclusivamente en <strong><code class="docutils literal notranslate"><span class="pre">target_vol_7</span></code></strong> por las siguientes razones:</p>
+<ol class="arabic simple">
+<li><p><strong>Horizonte primario operacional:</strong> <code class="docutils literal notranslate"><span class="pre">PRIMARY_HORIZON=7</span></code> en <code class="docutils literal notranslate"><span class="pre">src/config.py</span></code>
+refleja la decisión de equipo de tratar el horizonte de 7 días como el más
+relevante para una eventual aplicación en trading.</p></li>
+<li><p><strong>Consistencia comparativa:</strong> entrenar y evaluar 8 modelos × 3 horizontes
+produciría 24 RMSE distintos y 24 análisis de residuos. Concentrar el análisis
+en un único horizonte permite hacer <strong>comparaciones estadísticas rigurosas</strong>
+(Diebold-Mariano, bootstrap CI, Bonferroni en NB 09) sin saturar el alcance.</p></li>
+<li><p><strong>Infraestructura preparada para extensión:</strong> los targets <code class="docutils literal notranslate"><span class="pre">target_vol_14</span></code> y
+<code class="docutils literal notranslate"><span class="pre">target_vol_21</span></code> están construidos y guardados en disco. Replicar los notebooks
+04-12 para esos horizontes es trivial: basta con cambiar
+<code class="docutils literal notranslate"><span class="pre">y_trainval</span> <span class="pre">=</span> <span class="pre">trainval[&quot;target_vol_7&quot;]</span></code> → <code class="docutils literal notranslate"><span class="pre">trainval[&quot;target_vol_14&quot;]</span></code> o <code class="docutils literal notranslate"><span class="pre">21</span></code>.</p></li>
+<li><p><strong>Uso de los otros horizontes:</strong> aunque no se entrenan modelos sobre ellos,
+<code class="docutils literal notranslate"><span class="pre">vol_14</span></code> y <code class="docutils literal notranslate"><span class="pre">vol_21</span></code> SÍ se usan como <strong>features predictoras</strong> en <code class="docutils literal notranslate"><span class="pre">vol_ratio_7_14</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vol_ratio_7_21</span></code>, <code class="docutils literal notranslate"><span class="pre">vol_ratio_14_28</span></code> (NB 02). Es decir, capturan estructura
+temporal multi-escala en las predicciones de <code class="docutils literal notranslate"><span class="pre">target_vol_7</span></code>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path setup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="n">_root</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;notebooks&quot;</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="imports">
+<h2>1. Imports<a class="headerlink" href="#imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span>
+                              <span class="n">r2_score</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.io_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">load_processed</span><span class="p">,</span> <span class="n">save_predictions_df</span><span class="p">,</span>
+                           <span class="n">save_metrics</span><span class="p">,</span> <span class="n">save_model</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.pipelines</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_regression_pipelines</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.splits</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_tscv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_style</span><span class="p">,</span> <span class="n">color_for</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">DATA_PROCESSED</span>
+
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-datos">
+<h2>2. Cargar datos<a class="headerlink" href="#cargar-datos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;train_reg&quot;</span><span class="p">)</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;val_reg&quot;</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;test_reg&quot;</span><span class="p">)</span>
+
+<span class="c1"># Concatenar train+val para el ajuste final (la CV interna se hace dentro)</span>
+<span class="n">trainval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Cargar lista de features</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">DATA_PROCESSED</span> <span class="o">/</span> <span class="s2">&quot;feature_columns.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">feature_cols</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">X_trainval</span> <span class="o">=</span> <span class="n">trainval</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span>
+<span class="n">y_trainval</span> <span class="o">=</span> <span class="n">trainval</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train+Val: </span><span class="si">{</span><span class="n">X_trainval</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test:      </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Features:  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train+Val: (5920, 59)
+Test:      (1045, 59)
+Features:  59
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="validacion-cruzada-temporal-con-timeseriessplit">
+<h2>3. Validación cruzada temporal con TimeSeriesSplit<a class="headerlink" href="#validacion-cruzada-temporal-con-timeseriessplit" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tscv</span> <span class="o">=</span> <span class="n">make_tscv</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Visualizar los folds</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">tr_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tscv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tr_idx</span><span class="p">),</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_idx</span><span class="p">),</span> <span class="n">left</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tr_idx</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#FF9800&quot;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Fold </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Índice cronológico&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;TimeSeriesSplit — folds expandidos sobre train+val&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Distribución de folds:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">tr_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tscv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Fold </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: train=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tr_idx</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2"> | val=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val_idx</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;| val_start=</span><span class="si">{</span><span class="n">trainval</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a10821c94e0c80303465ef8799b33e89cfb0f539671e7acdf86edae303029733.png" src="../_images/a10821c94e0c80303465ef8799b33e89cfb0f539671e7acdf86edae303029733.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución de folds:
+  Fold 1: train=  990 | val= 986 | val_start=1994-02-08
+  Fold 2: train= 1976 | val= 986 | val_start=1998-01-05
+  Fold 3: train= 2962 | val= 986 | val_start=2001-12-07
+  Fold 4: train= 3948 | val= 986 | val_start=2005-11-07
+  Fold 5: train= 4934 | val= 986 | val_start=2009-10-08
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El esquema <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code> con folds expandidos respeta estrictamente la temporalidad: cada fold valida sobre un período <strong>posterior</strong> al de entrenamiento, simulando la situación realista de un modelo en producción que solo conoce el pasado. Los folds tempranos (Fold 1) tienen poco entrenamiento pero validan sobre períodos turbulentos; los folds tardíos tienen más entrenamiento y validan sobre períodos más recientes. Promediar las 5 métricas reduce el riesgo de sobreajuste a un período particular.</p>
+</div></blockquote>
+</section>
+<section id="definir-modelos-y-entrenar">
+<h2>4. Definir modelos y entrenar<a class="headerlink" href="#definir-modelos-y-entrenar" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models</span> <span class="o">=</span> <span class="n">get_regression_pipelines</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modelos a evaluar:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modelos a evaluar:
+  - KNN
+  - Ridge
+  - Lasso
+  - ElasticNet
+  - Decision Tree
+  - Random Forest
+  - SVR
+  - XGBoost
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_cv</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">results_test</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">trained_models</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">pipe</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Entrenando </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+    <span class="c1"># CV temporal con RMSE</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">rmse_scores</span> <span class="o">=</span> <span class="o">-</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">,</span>
+                                     <span class="n">cv</span><span class="o">=</span><span class="n">tscv</span><span class="p">,</span>
+                                     <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_root_mean_squared_error&quot;</span><span class="p">,</span>
+                                     <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mae_scores</span> <span class="o">=</span> <span class="o">-</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">,</span>
+                                    <span class="n">cv</span><span class="o">=</span><span class="n">tscv</span><span class="p">,</span>
+                                    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_absolute_error&quot;</span><span class="p">,</span>
+                                    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">r2_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">,</span>
+                                 <span class="n">cv</span><span class="o">=</span><span class="n">tscv</span><span class="p">,</span>
+                                 <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span>
+                                 <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t_cv</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+
+    <span class="c1"># Ajuste final sobre train+val y predicción en test</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">)</span>
+    <span class="n">t_fit</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+    <span class="n">yp_test</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">yp_train</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">)</span>
+
+    <span class="c1"># Guardar</span>
+    <span class="n">predictions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">yp_test</span>
+    <span class="n">trained_models</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pipe</span>
+
+    <span class="n">results_cv</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;Modelo&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;RMSE_CV_mean&quot;</span><span class="p">:</span> <span class="n">rmse_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;RMSE_CV_std&quot;</span><span class="p">:</span>  <span class="n">rmse_scores</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">&quot;MAE_CV&quot;</span><span class="p">:</span>       <span class="n">mae_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;R2_CV&quot;</span><span class="p">:</span>        <span class="n">r2_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;Tiempo_CV&quot;</span><span class="p">:</span>    <span class="nb">round</span><span class="p">(</span><span class="n">t_cv</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">})</span>
+    <span class="n">results_test</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;Modelo&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;RMSE_test&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">yp_test</span><span class="p">)),</span>
+        <span class="s2">&quot;MAE_test&quot;</span><span class="p">:</span>  <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">yp_test</span><span class="p">),</span>
+        <span class="s2">&quot;R2_test&quot;</span><span class="p">:</span>   <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">yp_test</span><span class="p">),</span>
+        <span class="s2">&quot;R2_train&quot;</span><span class="p">:</span>  <span class="n">r2_score</span><span class="p">(</span><span class="n">y_trainval</span><span class="p">,</span> <span class="n">yp_train</span><span class="p">),</span>
+        <span class="s2">&quot;Tiempo_fit&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">t_fit</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  CV RMSE: </span><span class="si">{</span><span class="n">rmse_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">rmse_scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Test R²: </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">yp_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | RMSE: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">yp_test</span><span class="p">))</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entrenando KNN...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\Users\Mateo\2026\UNINORTE\envs\intc-volforecast\Lib\site-packages\joblib\externals\loky\backend\context.py:136: UserWarning: Could not find the number of physical cores for the following reason:
+[WinError 2] El sistema no puede encontrar el archivo especificado
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File &quot;c:\Users\Mateo\2026\UNINORTE\envs\intc-volforecast\Lib\site-packages\joblib\externals\loky\backend\context.py&quot;, line 257, in _count_physical_cores
+    cpu_info = subprocess.run(
+               ^^^^^^^^^^^^^^^
+  File &quot;c:\Users\Mateo\2026\UNINORTE\envs\intc-volforecast\Lib\subprocess.py&quot;, line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;c:\Users\Mateo\2026\UNINORTE\envs\intc-volforecast\Lib\subprocess.py&quot;, line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File &quot;c:\Users\Mateo\2026\UNINORTE\envs\intc-volforecast\Lib\subprocess.py&quot;, line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  CV RMSE: 0.010772 ± 0.004256
+  Test R²: -0.1880 | RMSE: 0.007064
+
+Entrenando Ridge...
+  CV RMSE: 0.009318 ± 0.002751
+  Test R²: -0.0303 | RMSE: 0.006578
+
+Entrenando Lasso...
+  CV RMSE: 0.009980 ± 0.003496
+  Test R²: -0.0900 | RMSE: 0.006766
+
+Entrenando ElasticNet...
+  CV RMSE: 0.009633 ± 0.003220
+  Test R²: -0.0404 | RMSE: 0.006610
+
+Entrenando Decision Tree...
+  CV RMSE: 0.014054 ± 0.003733
+  Test R²: -1.9390 | RMSE: 0.011110
+
+Entrenando Random Forest...
+  CV RMSE: 0.010654 ± 0.003557
+  Test R²: -0.1859 | RMSE: 0.007058
+
+Entrenando SVR...
+  CV RMSE: 0.013357 ± 0.004334
+  Test R²: -0.6563 | RMSE: 0.008341
+
+Entrenando XGBoost...
+  CV RMSE: 0.010989 ± 0.004044
+  Test R²: -0.2342 | RMSE: 0.007200
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tablas-comparativas">
+<h2>5. Tablas comparativas<a class="headerlink" href="#tablas-comparativas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results_cv</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;RMSE_CV_mean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results_test</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;RMSE_test&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Validación Cruzada Temporal (5 folds) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_cv</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Test Final (15</span><span class="si">% ho</span><span class="s2">ldout) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Validación Cruzada Temporal (5 folds) ===
+       Modelo  RMSE_CV_mean  RMSE_CV_std   MAE_CV     R2_CV  Tiempo_CV
+        Ridge      0.009318     0.002751 0.006668  0.238056       1.41
+   ElasticNet      0.009633     0.003220 0.006855  0.194946       0.50
+        Lasso      0.009980     0.003496 0.007146  0.139039       0.50
+Random Forest      0.010654     0.003557 0.007749  0.014114      22.18
+          KNN      0.010772     0.004256 0.007541 -0.004073       4.83
+      XGBoost      0.010989     0.004044 0.007866 -0.046741       5.53
+          SVR      0.013357     0.004334 0.010095 -0.661644      11.30
+Decision Tree      0.014054     0.003733 0.009787 -0.755835       1.06
+
+=== Test Final (15% holdout) ===
+       Modelo  RMSE_test  MAE_test   R2_test  R2_train  Tiempo_fit
+        Ridge   0.006578  0.005204 -0.030270  0.480291        0.05
+   ElasticNet   0.006610  0.005316 -0.040390  0.460945        0.05
+        Lasso   0.006766  0.005546 -0.089983  0.448257        0.05
+Random Forest   0.007058  0.005715 -0.185944  0.839724        3.10
+          KNN   0.007064  0.005619 -0.188046  0.580888        0.05
+      XGBoost   0.007200  0.005918 -0.234236  0.837104        0.59
+          SVR   0.008341  0.006542 -0.656260  0.960632        6.00
+Decision Tree   0.011110  0.006785 -1.938977  0.833859        0.27
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> La comparación entre métricas de CV y de test permite identificar overfitting: si un modelo tiene buen R² en train pero malo en test, está memorizando ruido. <strong>Ridge tiende a ser el más robusto</strong> en este tipo de problemas porque su regularización L2 controla automáticamente el riesgo de sobreajuste. Los modelos no-lineales (Random Forest, XGBoost, SVR) ofrecen flexibilidad pero requieren más cuidado con el tuning para no degradar la generalización temporal.</p>
+</div></blockquote>
+</section>
+<section id="real-vs-predicho">
+<h2>6. Real vs Predicho<a class="headerlink" href="#real-vs-predicho" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Real&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">yp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#D32F2F&quot;</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predicho&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">yp</span><span class="p">))</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> — R²=</span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | RMSE=</span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Modelos de Regresión — Real vs Predicho (Test)&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.005</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c71bf18bdbb59d1a93f898c6b00f833b95f851c67359297f041d7e874a822930.png" src="../_images/c71bf18bdbb59d1a93f898c6b00f833b95f851c67359297f041d7e874a822930.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> A diferencia de los benchmarks econométricos del notebook 03, los modelos de ML producen <strong>predicciones que sí varían</strong> en función de las features de entrada. Los modelos lineales (Ridge, Lasso, ElasticNet) tienden a predecir trayectorias suaves; los modelos basados en árboles (RF, XGBoost) producen predicciones con mayor variabilidad local pero potencial sobreajuste. La calidad relativa de los modelos se cuantifica en las tablas anteriores y se valida estadísticamente en el notebook 09.</p>
+</div></blockquote>
+</section>
+<section id="analisis-de-overfitting-r2-train-vs-test">
+<h2>7. Análisis de overfitting (R² train vs test)<a class="headerlink" href="#analisis-de-overfitting-r2-train-vs-test" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">nombres</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;Modelo&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results_test</span><span class="p">]</span>
+<span class="n">r2_tr</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;R2_train&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results_test</span><span class="p">]</span>
+<span class="n">r2_te</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;R2_test&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results_test</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nombres</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">r2_tr</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;R² Train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">r2_te</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;R² Test&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#D32F2F&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">nombres</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;R²&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Análisis de Overfitting: R² Train vs Test&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1b678ea2cb2fc42a3416f8257994f0c520623a5026d877a01acd0b77107c5e3a.png" src="../_images/1b678ea2cb2fc42a3416f8257994f0c520623a5026d877a01acd0b77107c5e3a.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El gap entre R² de train y test indica el grado de sobreajuste. Modelos con gap pequeño (~0.05–0.10) generalizan razonablemente; gaps grandes (&gt;0.30) indican memorización. Decision Tree y Random Forest, sin podar, son los principales candidatos a sobreajustar. Esto se mitigará en el notebook 07 con optimización formal de hiperparámetros que penalice complejidad excesiva.</p>
+</div></blockquote>
+</section>
+<section id="persistir-predicciones-modelos-y-metricas">
+<h2>8. Persistir predicciones, modelos y métricas<a class="headerlink" href="#persistir-predicciones-modelos-y-metricas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_preds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                          <span class="s2">&quot;y_true&quot;</span><span class="p">:</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">yp</span> <span class="ow">in</span> <span class="n">predictions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">df_preds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">yp</span>
+
+<span class="n">save_predictions_df</span><span class="p">(</span><span class="n">df_preds</span><span class="p">,</span> <span class="s2">&quot;reg_test_preds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Predicciones persistidas en outputs/predictions/reg_test_preds.parquet&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">trained_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">safe_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="n">save_model</span><span class="p">(</span><span class="n">mdl</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;reg_</span><span class="si">{</span><span class="n">safe_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">trained_models</span><span class="p">)</span><span class="si">}</span><span class="s2"> modelos persistidos en outputs/models/&quot;</span><span class="p">)</span>
+
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;cv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;Modelo&quot;</span><span class="p">]:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;Modelo&quot;</span><span class="p">}</span>
+           <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results_cv</span><span class="p">},</span>
+    <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;Modelo&quot;</span><span class="p">]:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;Modelo&quot;</span><span class="p">}</span>
+             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results_test</span><span class="p">},</span>
+<span class="p">}</span>
+<span class="n">save_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="s2">&quot;regression_metrics&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Métricas en outputs/metrics/regression_metrics.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Predicciones persistidas en outputs/predictions/reg_test_preds.parquet
+✅ 8 modelos persistidos en outputs/models/
+✅ Métricas en outputs/metrics/regression_metrics.json
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="resumen-del-notebook">
+<h2>9. Resumen del notebook<a class="headerlink" href="#resumen-del-notebook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>8 modelos de regresión</strong> entrenados con <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code> y validados sobre test holdout.</p></li>
+<li><p><strong>Predicciones persistidas</strong> para uso en notebooks 08 (residuos), 09 (comparación estadística) y 13 (síntesis).</p></li>
+<li><p><strong>Modelos persistidos</strong> para uso en notebooks 07 (optimización) y 10 (interpretabilidad).</p></li>
+<li><p><strong>El mejor modelo en CV y/o test</strong> se determina formalmente con Diebold-Mariano y bootstrap CI en el notebook 09 — los rankings de RMSE puntual aquí son indicativos pero no definitivos.</p></li>
+</ul>
+<p><strong>Procede al notebook <code class="docutils literal notranslate"><span class="pre">05_clasificacion_ml.ipynb</span></code></strong> para los 8 modelos de clasificación.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_benchmarks_temporales.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">3. Benchmarks de Series de Tiempo</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_clasificacion_ml.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">5. Modelos de Clasificación (ML)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-metodologica-horizonte-de-evaluacion">Decisión metodológica: horizonte de evaluación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos">2. Cargar datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-cruzada-temporal-con-timeseriessplit">3. Validación cruzada temporal con TimeSeriesSplit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definir-modelos-y-entrenar">4. Definir modelos y entrenar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tablas-comparativas">5. Tablas comparativas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-vs-predicho">6. Real vs Predicho</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-overfitting-r2-train-vs-test">7. Análisis de overfitting (R² train vs test)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-predicciones-modelos-y-metricas">8. Persistir predicciones, modelos y métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">9. Resumen del notebook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

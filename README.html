@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>INTC-VolForecast &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/README.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>INTC-VolForecast</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autores">👥 Autores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">🎯 Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura-del-repositorio">🗂️ Estructura del repositorio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducir-el-proyecto">🚀 Reproducir el proyecto</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#opcion-1-con-make-recomendado">Opción 1: con <code class="docutils literal notranslate"><span class="pre">make</span></code> (recomendado)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#opcion-2-paso-a-paso">Opción 2: paso a paso</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-clave">📊 Resultados clave</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebooks-en-orden">📚 Notebooks en orden</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#licencia">⚖️ Licencia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contacto">📞 Contacto</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="intc-volforecast">
+<h1>INTC-VolForecast<a class="headerlink" href="#intc-volforecast" title="Link to this heading">#</a></h1>
+<p><strong>Predicción de volatilidad realizada de Intel Corporation (INTC) mediante Machine Learning supervisado y benchmarks econométricos</strong></p>
+<blockquote>
+<div><p>Proyecto académico — Curso de Machine Learning, Pregrado en Ciencia de Datos, Universidad del Norte.
+Docente: Dr. Lihki Rubio.</p>
+</div></blockquote>
+<hr class="docutils" />
+<section id="autores">
+<h2>👥 Autores<a class="headerlink" href="#autores" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nombre</p></th>
+<th class="head"><p>Rol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Juan Camilo Conrado</p></td>
+<td><p>Data scientist</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sergio Cadavid</p></td>
+<td><p>Data scientist</p></td>
+</tr>
+<tr class="row-even"><td><p>Mateo Chang</p></td>
+<td><p>Data scientist</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="objetivo">
+<h2>🎯 Objetivo<a class="headerlink" href="#objetivo" title="Link to this heading">#</a></h2>
+<p>Construir un sistema reproducible que prediga la <strong>volatilidad realizada futura</strong> del stock INTC en horizontes de 7, 14 y 21 días, comparando:</p>
+<ol class="arabic simple">
+<li><p><strong>Benchmarks econométricos</strong> clásicos (Naive, Rolling Mean, EWMA, ARIMA, GARCH).</p></li>
+<li><p><strong>Modelos de Machine Learning</strong> vistos en clase (KNN, Ridge, Lasso, Logistic Regression L1/L2, Naive Bayes, Decision Tree, Random Forest, SVM/SVR, XGBoost).</p></li>
+<li><p><strong>Modelos avanzados</strong> (LightGBM, CatBoost, MLP, LSTM).</p></li>
+<li><p>Un <strong>modelo original propuesto</strong> llamado <strong>HVRF — Hybrid Volatility Regime Forecaster</strong>, que combina clasificación de régimen + regresores especializados + ensamble suave.</p></li>
+</ol>
+<p>Todas las comparaciones se validan estadísticamente con <strong>Diebold-Mariano</strong>, <strong>DeLong</strong> y <strong>bootstrap CI</strong>, con corrección <strong>Bonferroni</strong> para comparaciones múltiples.</p>
+</section>
+<hr class="docutils" />
+<section id="estructura-del-repositorio">
+<h2>🗂️ Estructura del repositorio<a class="headerlink" href="#estructura-del-repositorio" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>INTC-VolForecast/
+├── data/
+│   ├── raw/                  # Dataset original (commitido)
+│   ├── interim/              # Datos limpios (gitignored)
+│   └── processed/            # Datos con features (gitignored)
+├── src/                      # Código importable
+├── notebooks/                # 14 notebooks numerados
+├── outputs/
+│   ├── models/               # Modelos persistidos
+│   ├── predictions/          # Predicciones por modelo
+│   ├── metrics/              # Métricas en JSON
+│   └── figures/              # Gráficos exportados
+├── tests/                    # Tests anti-leakage
+├── _config.yml               # Jupyter Book
+├── _toc.yml                  # Tabla de contenidos
+└── requirements.txt          # Versiones congeladas
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="reproducir-el-proyecto">
+<h2>🚀 Reproducir el proyecto<a class="headerlink" href="#reproducir-el-proyecto" title="Link to this heading">#</a></h2>
+<section id="opcion-1-con-make-recomendado">
+<h3>Opción 1: con <code class="docutils literal notranslate"><span class="pre">make</span></code> (recomendado)<a class="headerlink" href="#opcion-1-con-make-recomendado" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/JuanConrado/PROYECTO_ACTUALIZADO.git
+<span class="nb">cd</span><span class="w"> </span>PROYECTO_ACTUALIZADO
+git<span class="w"> </span>checkout<span class="w"> </span>v2
+
+<span class="c1"># 1. Crear entorno</span>
+make<span class="w"> </span>install
+
+<span class="c1"># 2. Verificar tests anti-leakage</span>
+make<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># 3. Construir el Jupyter Book completo</span>
+make<span class="w"> </span>build
+
+<span class="c1"># 4. Ver el book renderizado</span>
+open<span class="w"> </span>_build/html/index.html
+</pre></div>
+</div>
+</section>
+<section id="opcion-2-paso-a-paso">
+<h3>Opción 2: paso a paso<a class="headerlink" href="#opcion-2-paso-a-paso" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pytest<span class="w"> </span>tests/
+jupyter-book<span class="w"> </span>build<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="resultados-clave">
+<h2>📊 Resultados clave<a class="headerlink" href="#resultados-clave" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Nota:</strong> los números finales se completan tras ejecutar todos los notebooks. Esta sección se actualiza al final.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Mejor benchmark econométrico:</strong> TBD</p></li>
+<li><p><strong>Mejor modelo ML clásico:</strong> TBD</p></li>
+<li><p><strong>Mejor modelo avanzado:</strong> TBD</p></li>
+<li><p><strong>Modelo original HVRF:</strong> TBD vs benchmarks</p></li>
+<li><p><strong>Decisión final:</strong> TBD</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="notebooks-en-orden">
+<h2>📚 Notebooks en orden<a class="headerlink" href="#notebooks-en-orden" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Notebook</p></th>
+<th class="head"><p>Contenido</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>00</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">00_setup</span></code></p></td>
+<td><p>Verificación de entorno y tests</p></td>
+</tr>
+<tr class="row-odd"><td><p>01</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">01_eda</span></code></p></td>
+<td><p>Análisis exploratorio enfocado en INTC</p></td>
+</tr>
+<tr class="row-even"><td><p>02</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">02_features_and_targets</span></code></p></td>
+<td><p>55 features temporales + 4 targets</p></td>
+</tr>
+<tr class="row-odd"><td><p>03</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">03_benchmarks_temporales</span></code></p></td>
+<td><p>Naive, Rolling, EWMA, ARIMA, GARCH</p></td>
+</tr>
+<tr class="row-even"><td><p>04</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">04_regresion_ml</span></code></p></td>
+<td><p>8 modelos de regresión</p></td>
+</tr>
+<tr class="row-odd"><td><p>05</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">05_clasificacion_ml</span></code></p></td>
+<td><p>8 modelos de clasificación</p></td>
+</tr>
+<tr class="row-even"><td><p>06</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">06_balanceo_clases</span></code></p></td>
+<td><p>SMOTE, ADASYN, class_weight</p></td>
+</tr>
+<tr class="row-odd"><td><p>07</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">07_optimizacion_hiperparametros</span></code></p></td>
+<td><p>Grid, Random, Optuna, DEAP</p></td>
+</tr>
+<tr class="row-even"><td><p>08</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">08_residuos_y_diagnosticos</span></code></p></td>
+<td><p>White, BDS, Ljung-Box, ACF, JB</p></td>
+</tr>
+<tr class="row-odd"><td><p>09</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">09_comparacion_estadistica</span></code></p></td>
+<td><p>DM, DeLong real, Bootstrap, Bonferroni</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10_interpretabilidad</span></code></p></td>
+<td><p>Feature importance, LIME</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">11_modelos_avanzados</span></code></p></td>
+<td><p>LightGBM, CatBoost, MLP, LSTM</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">12_hvrf_modelo_original</span></code></p></td>
+<td><p>HVRF — diseño completo y ablaciones</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">13_comparacion_final_y_conclusiones</span></code></p></td>
+<td><p>Tabla maestra, ranking, conclusiones</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="licencia">
+<h2>⚖️ Licencia<a class="headerlink" href="#licencia" title="Link to this heading">#</a></h2>
+<p>MIT License. Ver <a class="reference download internal" download="" href="_downloads/9879d6db96fd29134fc802214163b95a/LICENSE"><span class="xref download myst">LICENSE</span></a>.</p>
+</section>
+<hr class="docutils" />
+<section id="contacto">
+<h2>📞 Contacto<a class="headerlink" href="#contacto" title="Link to this heading">#</a></h2>
+<p>Para preguntas técnicas sobre el proyecto, ver el archivo <a class="reference internal" href="ARCHITECTURE.html"><span class="std std-doc">ARCHITECTURE.md</span></a> que documenta cada decisión metodológica.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autores">👥 Autores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">🎯 Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura-del-repositorio">🗂️ Estructura del repositorio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducir-el-proyecto">🚀 Reproducir el proyecto</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#opcion-1-con-make-recomendado">Opción 1: con <code class="docutils literal notranslate"><span class="pre">make</span></code> (recomendado)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#opcion-2-paso-a-paso">Opción 2: paso a paso</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-clave">📊 Resultados clave</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebooks-en-orden">📚 Notebooks en orden</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#licencia">⚖️ Licencia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contacto">📞 Contacto</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

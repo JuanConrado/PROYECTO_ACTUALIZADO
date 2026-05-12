@@ -1,0 +1,941 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Features y Targets &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02_features_and_targets';</script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="3. Benchmarks de Series de Tiempo" href="03_benchmarks_temporales.html" />
+    <link rel="prev" title="1. Análisis Exploratorio (EDA) — INTC" href="01_eda.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Modelo Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_optimizacion_y_refinamientos_hvrf.html">14. Optimización Computacional y Refinamientos HVRF</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_referencias.html">15. Referencias Bibliográficas</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02_features_and_targets.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2. Features y Targets</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-del-dataset-filtrado">2. Carga del dataset filtrado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-features">3. Construcción de features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-targets">4. Construcción de targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-del-dataset-modelable">5. Visualización del dataset modelable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-visual-shift-sin-overlap">6. Verificación visual: shift sin overlap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-dataset-modelable-y-split-temporal">7. Construcción del dataset modelable y split temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizar-el-split">8. Visualizar el split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-todos-los-artefactos">9. Persistir todos los artefactos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">10. Resumen</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="features-y-targets">
+<h1>2. Features y Targets<a class="headerlink" href="#features-y-targets" title="Link to this heading">#</a></h1>
+<p><strong>Curso:</strong> Machine Learning · Pregrado en Ciencia de Datos · Universidad del Norte
+<strong>Docente:</strong> Dr. Lihki Rubio
+<strong>Equipo:</strong> Juan Camilo Conrado · Sergio Cadavid · Mateo Chang</p>
+<hr class="docutils" />
+<p>Este notebook construye las <strong>59 features causales</strong> y los <strong>4 targets</strong> que alimentarán todos los modelos del proyecto. Cada feature está diseñada para capturar información disponible en el momento <code class="docutils literal notranslate"><span class="pre">t</span></code>, sin acceder a datos futuros (anti-leakage).</p>
+<p>Salidas persistidas:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data/processed/features.parquet</span></code> — dataset completo con features y targets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data/processed/train_reg.parquet</span></code>, <code class="docutils literal notranslate"><span class="pre">val_reg.parquet</span></code>, <code class="docutils literal notranslate"><span class="pre">test_reg.parquet</span></code> — splits para regresión</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data/processed/train_clf.parquet</span></code>, <code class="docutils literal notranslate"><span class="pre">val_clf.parquet</span></code>, <code class="docutils literal notranslate"><span class="pre">test_clf.parquet</span></code> — splits para clasificación</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Importante:</strong> todos los notebooks posteriores (03 a 13) leen estos archivos de disco. Este notebook es la <strong>fuente única de verdad</strong> para los datos modelables.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Asegurar acceso al paquete src/ desde notebooks/</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="n">_root</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;notebooks&quot;</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="imports">
+<h2>1. Imports<a class="headerlink" href="#imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.data_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_intc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_features</span><span class="p">,</span> <span class="n">get_feature_columns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.targets</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">build_regression_targets</span><span class="p">,</span>
+                          <span class="n">build_classification_target</span><span class="p">,</span>
+                          <span class="n">build_all_targets</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.splits</span><span class="w"> </span><span class="kn">import</span> <span class="n">temporal_split</span><span class="p">,</span> <span class="n">split_summary</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_style</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.io_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_processed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">HORIZONS</span><span class="p">,</span> <span class="n">VOL_WINDOWS</span>
+
+<span class="n">set_style</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Listo.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Listo.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="carga-del-dataset-filtrado">
+<h2>2. Carga del dataset filtrado<a class="headerlink" href="#carga-del-dataset-filtrado" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">load_intc</span><span class="p">(</span><span class="n">filter_modern</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset cargado: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Período: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset cargado: (7022, 6)
+Período: 1990-01-02 → 2017-11-10
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>open</th>
+      <th>high</th>
+      <th>low</th>
+      <th>close</th>
+      <th>volume</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1990-01-02</td>
+      <td>0.8579</td>
+      <td>0.8982</td>
+      <td>0.8499</td>
+      <td>0.8982</td>
+      <td>79600273</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1990-01-03</td>
+      <td>0.8982</td>
+      <td>0.9061</td>
+      <td>0.8740</td>
+      <td>0.8740</td>
+      <td>86671242</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1990-01-04</td>
+      <td>0.8820</td>
+      <td>0.8982</td>
+      <td>0.8579</td>
+      <td>0.8904</td>
+      <td>72928342</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1990-01-05</td>
+      <td>0.8904</td>
+      <td>0.8982</td>
+      <td>0.8820</td>
+      <td>0.8820</td>
+      <td>46184758</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1990-01-08</td>
+      <td>0.8904</td>
+      <td>0.9061</td>
+      <td>0.8820</td>
+      <td>0.8982</td>
+      <td>54001929</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="construccion-de-features">
+<h2>3. Construcción de features<a class="headerlink" href="#construccion-de-features" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">build_features</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">feature_cols</span> <span class="o">=</span> <span class="n">get_feature_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> features construidas</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mostrar las features agrupadas por familia</span>
+<span class="n">families</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Lags de log-retornos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;log_ret_lag&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Lags de volatilidades&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;vol_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;_lag&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">],</span>
+    <span class="s2">&quot;Promedios de retorno absoluto&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;abs_ret_ma&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Range OHLC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hl_range&quot;</span><span class="p">,</span> <span class="s2">&quot;oc_change&quot;</span><span class="p">,</span> <span class="s2">&quot;vol_change&quot;</span><span class="p">,</span> <span class="s2">&quot;vol_ratio_10&quot;</span><span class="p">]],</span>
+    <span class="s2">&quot;Rolling range&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;hl_range_ma&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Retornos acumulados&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;cum_ret&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Ratios de volatilidad&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;vol_ratio_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;_10&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">c</span><span class="p">],</span>
+    <span class="s2">&quot;Momentum (RSI, Stochastic)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;rsi_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;stoch_&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Bollinger&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bb_&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;ATR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;atr_&quot;</span><span class="p">)],</span>
+    <span class="s2">&quot;Calendario&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;day_of_week&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;is_quarter_end&quot;</span><span class="p">]],</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">fam</span><span class="p">,</span> <span class="n">cols</span> <span class="ow">in</span> <span class="n">families</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">fam</span><span class="si">:</span><span class="s2">35s</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ 59 features construidas
+
+  Lags de log-retornos                (8): [&#39;log_ret_lag1&#39;, &#39;log_ret_lag2&#39;, &#39;log_ret_lag3&#39;, &#39;log_ret_lag5&#39;, &#39;log_ret_lag7&#39;, &#39;log_ret_lag10&#39;, &#39;log_ret_lag14&#39;, &#39;log_ret_lag21&#39;]
+  Lags de volatilidades               (28): [&#39;vol_7_lag1&#39;, &#39;vol_7_lag2&#39;, &#39;vol_7_lag3&#39;, &#39;vol_7_lag5&#39;, &#39;vol_7_lag7&#39;, &#39;vol_7_lag14&#39;, &#39;vol_7_lag21&#39;, &#39;vol_14_lag1&#39;, &#39;vol_14_lag2&#39;, &#39;vol_14_lag3&#39;, &#39;vol_14_lag5&#39;, &#39;vol_14_lag7&#39;, &#39;vol_14_lag14&#39;, &#39;vol_14_lag21&#39;, &#39;vol_21_lag1&#39;, &#39;vol_21_lag2&#39;, &#39;vol_21_lag3&#39;, &#39;vol_21_lag5&#39;, &#39;vol_21_lag7&#39;, &#39;vol_21_lag14&#39;, &#39;vol_21_lag21&#39;, &#39;vol_28_lag1&#39;, &#39;vol_28_lag2&#39;, &#39;vol_28_lag3&#39;, &#39;vol_28_lag5&#39;, &#39;vol_28_lag7&#39;, &#39;vol_28_lag14&#39;, &#39;vol_28_lag21&#39;]
+  Promedios de retorno absoluto       (3): [&#39;abs_ret_ma5&#39;, &#39;abs_ret_ma10&#39;, &#39;abs_ret_ma20&#39;]
+  Range OHLC                          (4): [&#39;hl_range&#39;, &#39;oc_change&#39;, &#39;vol_change&#39;, &#39;vol_ratio_10&#39;]
+  Rolling range                       (3): [&#39;hl_range_ma5&#39;, &#39;hl_range_ma10&#39;, &#39;hl_range_ma20&#39;]
+  Retornos acumulados                 (3): [&#39;cum_ret_5&#39;, &#39;cum_ret_10&#39;, &#39;cum_ret_20&#39;]
+  Ratios de volatilidad               (3): [&#39;vol_ratio_7_14&#39;, &#39;vol_ratio_7_21&#39;, &#39;vol_ratio_14_28&#39;]
+  Momentum (RSI, Stochastic)          (2): [&#39;rsi_14&#39;, &#39;stoch_k_14&#39;]
+  Bollinger                           (1): [&#39;bb_bandwidth_20&#39;]
+  ATR                                 (1): [&#39;atr_14&#39;]
+  Calendario                          (3): [&#39;day_of_week&#39;, &#39;month&#39;, &#39;is_quarter_end&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Las 59 features se distribuyen en 11 familias diseñadas para capturar diferentes aspectos de la dinámica de precios: persistencia (lags), volatilidad realizada (vol_w_lagk), momentum, rangos intraday, estructura temporal de la volatilidad y estacionalidad de calendario. Esta diversidad evita que el modelo dependa de una única señal y permite que algoritmos como Ridge/Lasso seleccionen las más informativas mediante regularización.</p>
+</div></blockquote>
+</section>
+<section id="construccion-de-targets">
+<h2>4. Construcción de targets<a class="headerlink" href="#construccion-de-targets" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">build_regression_targets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">build_classification_target</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Verificar shifts correctos</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Verificación: target_vol_h debe ser igual a vol_h.shift(-h)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  target_vol_7  vs vol_7.shift(-7):   &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target_vol_7&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vol_7&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">),</span><span class="w"> </span><span class="n">equal_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  target_vol_14 vs vol_14.shift(-14): &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target_vol_14&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vol_14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">),</span><span class="w"> </span><span class="n">equal_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  target_vol_21 vs vol_21.shift(-21): &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target_vol_21&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vol_21&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">21</span><span class="p">),</span><span class="w"> </span><span class="n">equal_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Distribución del target de clasificación:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(clase=1) = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Verificación: target_vol_h debe ser igual a vol_h.shift(-h)
+  target_vol_7  vs vol_7.shift(-7):   True
+  target_vol_14 vs vol_14.shift(-14): True
+  target_vol_21 vs vol_21.shift(-21): True
+
+Distribución del target de clasificación:
+target_class
+0    3608
+1    3414
+Name: count, dtype: int64
+P(clase=1) = 0.4862
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Los tres targets de regresión usan <strong>shift sin overlap</strong> (vol_7 con shift(-7), vol_14 con shift(-14), vol_21 con shift(-21)), lo cual garantiza que la ventana del target [t+1, t+h] <strong>no comparta ninguna observación</strong> con la ventana de la feature <code class="docutils literal notranslate"><span class="pre">vol_h</span></code> actual [t-h+1, t]. Este es el ajuste metodológico crítico que distingue esta versión del proyecto de iteraciones anteriores donde el R² estaba inflado artificialmente por overlap. El target binario está casi balanceado (P(clase=1) ≈ 0.486), lo cual significa que las técnicas de balanceo (SMOTE/ADASYN) tendrán impacto marginal — pero se aplican igualmente en el notebook 06 por completitud metodológica.</p>
+</div></blockquote>
+</section>
+<section id="visualizacion-del-dataset-modelable">
+<h2>5. Visualización del dataset modelable<a class="headerlink" href="#visualizacion-del-dataset-modelable" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar cuántas filas son útiles para regresión y clasificación</span>
+<span class="n">n_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">n_reg7</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">n_reg14</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;target_vol_14&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">n_reg21</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;target_vol_21&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">n_clf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;target_class&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total filas:                          </span><span class="si">{</span><span class="n">n_total</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas modelables para regresión h=7:  </span><span class="si">{</span><span class="n">n_reg7</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_reg7</span><span class="o">/</span><span class="n">n_total</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas modelables para regresión h=14: </span><span class="si">{</span><span class="n">n_reg14</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_reg14</span><span class="o">/</span><span class="n">n_total</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas modelables para regresión h=21: </span><span class="si">{</span><span class="n">n_reg21</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_reg21</span><span class="o">/</span><span class="n">n_total</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas modelables para clasificación:  </span><span class="si">{</span><span class="n">n_clf</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_clf</span><span class="o">/</span><span class="n">n_total</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total filas:                           7022
+Filas modelables para regresión h=7:   6965  (99.2%)
+Filas modelables para regresión h=14:  6958  (99.1%)
+Filas modelables para regresión h=21:  6951  (99.0%)
+Filas modelables para clasificación:   6972  (99.3%)
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> La pérdida de filas se debe a (a) los primeros ~30 días que no tienen suficiente histórico para los lags más largos (vol_28_lag21 requiere ~50 días de data previa) y (b) los últimos h días que no tienen target futuro definido. La eficiencia es alta (&gt;97% de filas modelables), lo cual es óptimo para series de este tamaño.</p>
+</div></blockquote>
+</section>
+<section id="verificacion-visual-shift-sin-overlap">
+<h2>6. Verificación visual: shift sin overlap<a class="headerlink" href="#verificacion-visual-shift-sin-overlap" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tomar una ventana corta para visualizar</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;vol_7&quot;</span><span class="p">,</span> <span class="s2">&quot;target_vol_7&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2030</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;vol_7&quot;</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;vol_7 (actual)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">],</span> <span class="s2">&quot;s-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;target_vol_7 (= vol_7 en t+7)&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#D32F2F&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Verificación visual: target_vol_7 está adelantado 7 días respecto a vol_7&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Volatilidad&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2d6b87900b24f1d409512755f3c7cafa10f9b6db2a084ef38880dd0635ae2085.png" src="../_images/2d6b87900b24f1d409512755f3c7cafa10f9b6db2a084ef38880dd0635ae2085.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El gráfico muestra que <code class="docutils literal notranslate"><span class="pre">target_vol_7[t]</span></code> es exactamente igual a <code class="docutils literal notranslate"><span class="pre">vol_7[t+7]</span></code>: la línea roja está adelantada 7 posiciones respecto a la azul. Esta es la confirmación visual de que el shift está bien implementado y de que <strong>el modelo, al predecir target_vol_7[t], realmente predice información futura</strong> (no contemporánea ni pasada).</p>
+</div></blockquote>
+</section>
+<section id="construccion-del-dataset-modelable-y-split-temporal">
+<h2>7. Construcción del dataset modelable y split temporal<a class="headerlink" href="#construccion-del-dataset-modelable-y-split-temporal" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filas válidas: las que tienen TODAS las features y al menos target_vol_7 y target_class</span>
+<span class="n">df_model</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">,</span> <span class="s2">&quot;target_class&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_model</span> <span class="o">=</span> <span class="n">df_model</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset modelable: </span><span class="si">{</span><span class="n">df_model</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Split temporal 70/15/15</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">temporal_split</span><span class="p">(</span><span class="n">df_model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">split_summary</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset modelable: (6965, 75)
+Train:  4875 obs | 1990-03-13 → 2009-07-15
+Val  :  1045 obs | 2009-07-16 → 2013-09-10
+Test :  1045 obs | 2013-09-11 → 2017-11-01
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El split temporal cubre tres regímenes históricos distintos: train (1990–2009) incluye el rally dot-com, su colapso y la crisis financiera; validation (2009–2013) cubre la recuperación post-crisis; test (2013–2017) es el período más reciente y cuasi-estable. <strong>Este orden NO se altera con shuffle</strong>, lo cual garantiza que el modelo siempre aprende sobre el pasado para predecir el futuro — es decir, simula condiciones realistas de despliegue en producción.</p>
+</div></blockquote>
+</section>
+<section id="visualizar-el-split">
+<h2>8. Visualizar el split<a class="headerlink" href="#visualizar-el-split" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Train (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span><span class="si">}</span><span class="s2"> obs)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#FF9800&quot;</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Validation (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2"> obs)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#D32F2F&quot;</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Test (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="si">}</span><span class="s2"> obs)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;INTC — target_vol_7 con split temporal 70/15/15&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Fecha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d6f1cb6fc57fa868d792663a4c5b7ecc2174cb89018364c291b46bc2e21225fc.png" src="../_images/d6f1cb6fc57fa868d792663a4c5b7ecc2174cb89018364c291b46bc2e21225fc.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> El test (rojo) es el último 15% del dataset y NUNCA se usa durante entrenamiento ni selección de modelos. La validación (naranja) se usa para selección de modelos en notebooks posteriores. El train (azul) es el bloque de aprendizaje. El test cubre 2013–2017, un período relativamente estable que ofrece un escenario realista de evaluación: si los modelos no funcionan en este período, claramente no servirían en producción.</p>
+</div></blockquote>
+</section>
+<section id="persistir-todos-los-artefactos">
+<h2>9. Persistir todos los artefactos<a class="headerlink" href="#persistir-todos-los-artefactos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Persistir el dataset completo con features+targets</span>
+<span class="n">path_full</span> <span class="o">=</span> <span class="n">save_processed</span><span class="p">(</span><span class="n">df_model</span><span class="p">,</span> <span class="s2">&quot;features&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Dataset modelable: </span><span class="si">{</span><span class="n">path_full</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Persistir splits para regresión</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;train_reg&quot;</span><span class="p">,</span> <span class="n">train</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;val_reg&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;test_reg&quot;</span><span class="p">,</span> <span class="n">test</span><span class="p">)]:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">save_processed</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Para clasificación usamos el mismo split (las features son las mismas)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;train_clf&quot;</span><span class="p">,</span> <span class="n">train</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;val_clf&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;test_clf&quot;</span><span class="p">,</span> <span class="n">test</span><span class="p">)]:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">save_processed</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Lista de feature_cols (para no recalcularla)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">DATA_PROCESSED</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">DATA_PROCESSED</span> <span class="o">/</span> <span class="s2">&quot;feature_columns.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✅ feature_columns.json guardado con </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> columnas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Dataset modelable: C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\features.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\train_reg.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\val_reg.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\test_reg.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\train_clf.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\val_clf.parquet
+   C:\Users\Mateo\2026\UNINORTE 2026 -1\ML\INTC-VolForecast\data\processed\test_clf.parquet
+
+✅ feature_columns.json guardado con 59 columnas
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">Kernel</span> <span class="n">crashed</span> <span class="k">while</span> <span class="n">executing</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">current</span> <span class="n">cell</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">previous</span> <span class="n">cell</span><span class="o">.</span> 
+
+<span class="n">Please</span> <span class="n">review</span> <span class="n">the</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">cell</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">identify</span> <span class="n">a</span> <span class="n">possible</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">failure</span><span class="o">.</span> 
+
+<span class="n">Click</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;https://aka.ms/vscodeJupyterKernelCrash&#39;</span><span class="o">&gt;</span><span class="n">here</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">info</span><span class="o">.</span> 
+
+<span class="n">View</span> <span class="n">Jupyter</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;command:jupyter.viewOutput&#39;</span><span class="o">&gt;</span><span class="n">log</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">further</span> <span class="n">details</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="resumen">
+<h2>10. Resumen<a class="headerlink" href="#resumen" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Artefacto</p></th>
+<th class="head"><p>Ubicación</p></th>
+<th class="head"><p>Filas</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Dataset completo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/features.parquet</span></code></p></td>
+<td><p>~6,950</p></td>
+</tr>
+<tr class="row-odd"><td><p>Train regresión</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/train_reg.parquet</span></code></p></td>
+<td><p>~4,865</p></td>
+</tr>
+<tr class="row-even"><td><p>Validation regresión</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/val_reg.parquet</span></code></p></td>
+<td><p>~1,043</p></td>
+</tr>
+<tr class="row-odd"><td><p>Test regresión</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/test_reg.parquet</span></code></p></td>
+<td><p>~1,043</p></td>
+</tr>
+<tr class="row-even"><td><p>Lista de features</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/processed/feature_columns.json</span></code></p></td>
+<td><p>59 nombres</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Procede al notebook <code class="docutils literal notranslate"><span class="pre">03_benchmarks_temporales.ipynb</span></code></strong> para ajustar los benchmarks econométricos clásicos (Naive, Rolling, EWMA, ARIMA, GARCH) sobre estos datos.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_eda.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">1. Análisis Exploratorio (EDA) — INTC</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_benchmarks_temporales.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">3. Benchmarks de Series de Tiempo</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-del-dataset-filtrado">2. Carga del dataset filtrado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-features">3. Construcción de features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-targets">4. Construcción de targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-del-dataset-modelable">5. Visualización del dataset modelable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-visual-shift-sin-overlap">6. Verificación visual: shift sin overlap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-dataset-modelable-y-split-temporal">7. Construcción del dataset modelable y split temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizar-el-split">8. Visualizar el split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-todos-los-artefactos">9. Persistir todos los artefactos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">10. Resumen</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

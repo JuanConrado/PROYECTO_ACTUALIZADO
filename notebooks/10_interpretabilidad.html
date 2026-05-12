@@ -1,0 +1,969 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>10. Interpretabilidad &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10_interpretabilidad';</script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)" href="11_modelos_avanzados.html" />
+    <link rel="prev" title="9. Comparación Estadística de Modelos" href="09_comparacion_estadistica.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Modelo Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_optimizacion_y_refinamientos_hvrf.html">14. Optimización Computacional y Refinamientos HVRF</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_referencias.html">15. Referencias Bibliográficas</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/10_interpretabilidad.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>10. Interpretabilidad</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-y-cargar-el-modelo-xgboost-optimizado">1. Imports y cargar el modelo XGBoost optimizado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importancia-global-con-tres-metricas">2. Importancia global con tres métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-de-las-3-metricas">3. Visualización de las 3 métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permutation-importance">4. Permutation importance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-explicacion-local-de-predicciones">5. LIME — Explicación local de predicciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-explicaciones-lime-representativas">6. Tres explicaciones LIME representativas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-resultados">7. Persistir resultados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">8. Resumen del notebook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interpretabilidad">
+<h1>10. Interpretabilidad<a class="headerlink" href="#interpretabilidad" title="Link to this heading">#</a></h1>
+<p><strong>Curso:</strong> Machine Learning · Pregrado en Ciencia de Datos · Universidad del Norte
+<strong>Docente:</strong> Dr. Lihki Rubio
+<strong>Equipo:</strong> Juan Camilo Conrado · Sergio Cadavid · Mateo Chang</p>
+<hr class="docutils" />
+<p>Este notebook responde a la pregunta esencial:</p>
+<blockquote>
+<div><p><strong>¿Qué señales están usando los modelos para predecir la volatilidad futura?</strong></p>
+</div></blockquote>
+<p>Aplicamos dos enfoques complementarios:</p>
+<ol class="arabic simple">
+<li><p><strong>Importancia global (XGBoost):</strong> mide la contribución de cada feature al desempeño del modelo agregado sobre todo el dataset.</p></li>
+<li><p><strong>LIME local:</strong> explica predicciones individuales identificando qué features empujan la predicción hacia arriba o hacia abajo en un día específico.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Por qué LIME y no SHAP:</strong> LIME está incluido en la rúbrica del Dr. Lihki. SHAP es complementario y se podría agregar en el futuro pero no es obligatorio. La interpretación local con LIME es suficiente para defender el comportamiento del modelo en sustentación.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path setup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="n">_root</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;notebooks&quot;</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="imports-y-cargar-el-modelo-xgboost-optimizado">
+<h2>1. Imports y cargar el modelo XGBoost optimizado<a class="headerlink" href="#imports-y-cargar-el-modelo-xgboost-optimizado" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.io_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">load_processed</span><span class="p">,</span> <span class="n">load_predictions_df</span><span class="p">,</span>
+                           <span class="n">load_model</span><span class="p">,</span> <span class="n">save_metrics</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.interpretability</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">xgb_feature_importance</span><span class="p">,</span>
+                                    <span class="n">lime_explainer</span><span class="p">,</span>
+                                    <span class="n">explain_with_lime</span><span class="p">,</span>
+                                    <span class="n">lime_to_dataframe</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">DATA_PROCESSED</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_style</span>
+
+<span class="n">set_style</span><span class="p">()</span>
+
+<span class="c1"># Cargar splits</span>
+<span class="n">trainval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;train_reg&quot;</span><span class="p">),</span>
+                       <span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;val_reg&quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">load_processed</span><span class="p">(</span><span class="s2">&quot;test_reg&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">DATA_PROCESSED</span> <span class="o">/</span> <span class="s2">&quot;feature_columns.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">feature_cols</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">X_trainval</span> <span class="o">=</span> <span class="n">trainval</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span>
+<span class="n">y_trainval</span> <span class="o">=</span> <span class="n">trainval</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;target_vol_7&quot;</span><span class="p">]</span>
+
+<span class="c1"># Intentar cargar el modelo optimizado del notebook 07.</span>
+<span class="c1"># Si no existe, usar el reg_xgboost del notebook 04.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">pipe</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;xgb_reg_optimized&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Cargado modelo XGBoost optimizado (notebook 07)&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">pipe</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;reg_xgboost&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ Modelo optimizado no disponible, usando reg_xgboost del notebook 04&quot;</span><span class="p">)</span>
+
+<span class="c1"># Acceder al XGBRegressor dentro del Pipeline</span>
+<span class="n">xgb_model</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Modelo: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">xgb_model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   N estimators: </span><span class="si">{</span><span class="n">xgb_model</span><span class="o">.</span><span class="n">n_estimators</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⚠️ Modelo optimizado no disponible, usando reg_xgboost del notebook 04
+   Modelo: XGBRegressor
+   N estimators: 200
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="importancia-global-con-tres-metricas">
+<h2>2. Importancia global con tres métricas<a class="headerlink" href="#importancia-global-con-tres-metricas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">importance_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gain&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="s2">&quot;cover&quot;</span><span class="p">]</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">imp_type</span> <span class="ow">in</span> <span class="n">importance_types</span><span class="p">:</span>
+    <span class="n">df_imp</span> <span class="o">=</span> <span class="n">xgb_feature_importance</span><span class="p">(</span><span class="n">xgb_model</span><span class="p">,</span> <span class="n">feature_cols</span><span class="p">,</span>
+                                     <span class="n">importance_type</span><span class="o">=</span><span class="n">imp_type</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">importances</span><span class="p">[</span><span class="n">imp_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_imp</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Top 15 features por </span><span class="si">{</span><span class="n">imp_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_imp</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Top 15 features por GAIN ===
+      feature  importance
+hl_range_ma20    0.017208
+hl_range_ma10    0.004443
+ abs_ret_ma20    0.003103
+ hl_range_ma5    0.003082
+       atr_14    0.002379
+       rsi_14    0.001473
+   stoch_k_14    0.001225
+  vol_21_lag1    0.001210
+ vol_21_lag14    0.001192
+   cum_ret_20    0.001162
+  vol_7_lag14    0.001145
+  vol_21_lag2    0.000997
+  vol_28_lag5    0.000946
+  vol_21_lag7    0.000936
+ vol_28_lag14    0.000935
+
+=== Top 15 features por WEIGHT ===
+        feature  importance
+         atr_14       354.0
+          month       286.0
+   vol_28_lag21       198.0
+   log_ret_lag1       170.0
+  hl_range_ma20       163.0
+     cum_ret_10       162.0
+bb_bandwidth_20       158.0
+vol_ratio_14_28       146.0
+    vol_7_lag21       146.0
+     cum_ret_20       141.0
+   vol_14_lag21       141.0
+         rsi_14       141.0
+    vol_7_lag14       120.0
+     vol_7_lag7       120.0
+     stoch_k_14       119.0
+
+=== Top 15 features por COVER ===
+      feature  importance
+    oc_change 2952.275879
+hl_range_ma10 2105.322021
+hl_range_ma20 2070.619629
+ vol_28_lag14 2015.423096
+ vol_ratio_10 1961.239624
+ abs_ret_ma20 1847.988037
+ vol_14_lag21 1761.489380
+  vol_21_lag7 1696.125000
+  vol_14_lag5 1627.224121
+  vol_14_lag1 1601.917847
+    cum_ret_5 1565.875000
+ vol_28_lag21 1532.116211
+  vol_14_lag2 1517.256470
+  vol_21_lag3 1416.729126
+  vol_21_lag5 1398.033936
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación de los 3 tipos de importancia:</strong></p>
+<ul class="simple">
+<li><p><strong>Gain:</strong> ganancia total de pureza que aporta cada feature al usarse en splits. Es la métrica más común y la mejor para identificar features verdaderamente útiles.</p></li>
+<li><p><strong>Weight:</strong> número de veces que cada feature se usa en algún split. Una feature puede tener weight alto pero gain bajo si se usa mucho pero aporta poco. Útil para detectar features dominantes.</p></li>
+<li><p><strong>Cover:</strong> número promedio de muestras afectadas por splits que usan cada feature. Mide qué tan «global» es el efecto de cada feature.</p></li>
+</ul>
+<p>Las <strong>features que aparecen en el top de las tres métricas</strong> son las realmente importantes. Si una feature solo destaca en weight pero no en gain ni cover, es candidata a ser ruidosa.</p>
+</div></blockquote>
+</section>
+<section id="visualizacion-de-las-3-metricas">
+<h2>3. Visualización de las 3 métricas<a class="headerlink" href="#visualizacion-de-las-3-metricas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;gain&quot;</span><span class="p">:</span> <span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;#FF9800&quot;</span><span class="p">,</span> <span class="s2">&quot;cover&quot;</span><span class="p">:</span> <span class="s2">&quot;#4CAF50&quot;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">imp_type</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">importance_types</span><span class="p">):</span>
+    <span class="n">df_imp</span> <span class="o">=</span> <span class="n">importances</span><span class="p">[</span><span class="n">imp_type</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">df_imp</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_imp</span><span class="p">[</span><span class="s2">&quot;importance&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">imp_type</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Importancia por </span><span class="si">{</span><span class="n">imp_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Importancia&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;XGBoost — Top 15 features por 3 métricas de importancia&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b5a179f65e031a07ba566db28c0e6b3a0a6a56c35874fb39754d2ba3608ae0e4.png" src="../_images/b5a179f65e031a07ba566db28c0e6b3a0a6a56c35874fb39754d2ba3608ae0e4.png" />
+</div>
+</div>
+</section>
+<section id="permutation-importance">
+<h2>4. Permutation importance<a class="headerlink" href="#permutation-importance" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.inspection</span><span class="w"> </span><span class="kn">import</span> <span class="n">permutation_importance</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calculando permutation importance (puede tardar 1-3 min)...&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span>
+    <span class="n">pipe</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span>
+    <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_root_mean_squared_error&quot;</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Ordenar y mostrar top 15</span>
+<span class="n">perm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;feature&quot;</span><span class="p">:</span> <span class="n">feature_cols</span><span class="p">,</span>
+    <span class="s2">&quot;importance_mean&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_mean</span><span class="p">,</span>
+    <span class="s2">&quot;importance_std&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_std</span><span class="p">,</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;importance_mean&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Top 15 features por permutation importance ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">perm_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calculando permutation importance (puede tardar 1-3 min)...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Top 15 features por permutation importance ===
+       feature  importance_mean  importance_std
+        atr_14         0.000291        0.000054
+   vol_14_lag7         0.000185        0.000017
+  vol_14_lag21         0.000177        0.000030
+  abs_ret_ma20         0.000113        0.000032
+    vol_7_lag5         0.000090        0.000022
+    cum_ret_10         0.000076        0.000018
+   vol_7_lag21         0.000052        0.000009
+vol_ratio_7_21         0.000050        0.000015
+         month         0.000046        0.000023
+    vol_7_lag1         0.000029        0.000007
+  vol_21_lag14         0.000029        0.000006
+     cum_ret_5         0.000028        0.000014
+  vol_ratio_10         0.000025        0.000009
+   vol_21_lag5         0.000023        0.000003
+  vol_21_lag21         0.000021        0.000005
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación de Permutation Importance:</strong> A diferencia de las métricas internas de XGBoost, <strong>permutation importance se calcula sobre TEST</strong>: mezcla aleatoriamente cada feature y mide cuánto se degrada el RMSE. Es una medida más confiable porque no depende de cómo el modelo eligió usar la feature internamente, sino de cuánto <strong>realmente</strong> contribuye al desempeño en datos no vistos.</p>
+<p>Las features con permutation importance alta son las que el modelo <strong>necesita</strong> para mantener su precisión. Las features con importancia cercana a 0 son removibles sin pérdida.</p>
+<p><strong>Conexión con volatility clustering (Mandelbrot 1963):</strong> las features que dominan ambas medidas — <code class="docutils literal notranslate"><span class="pre">atr_14</span></code>, <code class="docutils literal notranslate"><span class="pre">vol_14_lag7</span></code>, <code class="docutils literal notranslate"><span class="pre">vol_14_lag21</span></code>, <code class="docutils literal notranslate"><span class="pre">abs_ret_ma20</span></code>, <code class="docutils literal notranslate"><span class="pre">hl_range_ma20</span></code> — son <strong>todas medidas de volatilidad reciente</strong> (rolling windows entre 5 y 21 días, lags de volatilidad realizada, rango medio absoluto). Esto es exactamente el patrón que Mandelbrot identificó en 1963 y que Engle (1982) y Bollerslev (1986) formalizaron econométricamente: la mejor predicción de la volatilidad futura es la volatilidad pasada cercana. El modelo XGBoost, sin saber nada de finanzas, ha <strong>«redescubierto» empíricamente el principio de clustering</strong> — los gradientes de pérdida lo empujaron a usar lo que la teoría predice que debería usar. Esta convergencia entre lo que el modelo escogió como informativo y lo que la literatura econométrica ya había identificado es una validación cualitativa de las features construidas en el NB 02.</p>
+</div></blockquote>
+</section>
+<section id="lime-explicacion-local-de-predicciones">
+<h2>5. LIME — Explicación local de predicciones<a class="headerlink" href="#lime-explicacion-local-de-predicciones" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear el explainer sobre el set de entrenamiento</span>
+<span class="c1"># Se usan valores numéricos crudos (LIME los normaliza internamente)</span>
+<span class="n">imputer</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;imputer&quot;</span><span class="p">]</span>
+<span class="n">X_train_imputed</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">)</span>
+<span class="n">X_test_imputed</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">explainer</span> <span class="o">=</span> <span class="n">lime_explainer</span><span class="p">(</span><span class="n">X_train_imputed</span><span class="p">,</span> <span class="n">feature_cols</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ LIME explainer creado&quot;</span><span class="p">)</span>
+
+<span class="c1"># Función predict que LIME pueda usar (recibe numpy array, devuelve predicciones)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_fn</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="c1"># X ya está imputado, solo aplicar las etapas posteriores</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="k">for</span> <span class="n">step_name</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">step_name</span> <span class="o">==</span> <span class="s2">&quot;imputer&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># ya está imputado</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">step_name</span> <span class="o">!=</span> <span class="s2">&quot;model&quot;</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pred</span>
+
+<span class="c1"># Verificación: que predict_fn da las mismas predicciones que pipe.predict</span>
+<span class="n">yp_check</span> <span class="o">=</span> <span class="n">predict_fn</span><span class="p">(</span><span class="n">X_test_imputed</span><span class="p">)</span>
+<span class="n">yp_real</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">yp_check</span><span class="p">,</span> <span class="n">yp_real</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">),</span> <span class="s2">&quot;predict_fn no concuerda con pipe.predict&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ predict_fn validada&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ LIME explainer creado
+✅ predict_fn validada
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tres-explicaciones-lime-representativas">
+<h2>6. Tres explicaciones LIME representativas<a class="headerlink" href="#tres-explicaciones-lime-representativas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_test</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">y_pred_test</span><span class="p">)</span>
+
+<span class="c1"># Seleccionar 3 instancias representativas</span>
+<span class="n">idx_acertada</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">errors</span><span class="p">))</span>
+<span class="n">idx_fallida</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">errors</span><span class="p">))</span>
+<span class="n">idx_media</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">errors</span><span class="p">)[</span><span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">cases</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Predicción acertada&quot;</span><span class="p">:</span> <span class="n">idx_acertada</span><span class="p">,</span>
+    <span class="s2">&quot;Predicción fallida&quot;</span><span class="p">:</span>  <span class="n">idx_fallida</span><span class="p">,</span>
+    <span class="s2">&quot;Predicción promedio&quot;</span><span class="p">:</span> <span class="n">idx_media</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">cases</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="n">X_test_imputed</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">exp</span> <span class="o">=</span> <span class="n">explain_with_lime</span><span class="p">(</span><span class="n">explainer</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">predict_fn</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">df_exp</span> <span class="o">=</span> <span class="n">lime_to_dataframe</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+
+    <span class="c1"># Visualizar como barras horizontales</span>
+    <span class="n">colors_bar</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#4CAF50&quot;</span> <span class="k">if</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;#D32F2F&quot;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">df_exp</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">df_exp</span><span class="p">[</span><span class="s2">&quot;feature_condition&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_exp</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">colors_bar</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">\n</span><span class="s2">Real=</span><span class="si">{</span><span class="n">y_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                 <span class="sa">f</span><span class="s2">&quot;Pred=</span><span class="si">{</span><span class="n">y_pred_test</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="se">\n</span><span class="s2">(error=</span><span class="si">{</span><span class="n">errors</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Contribución LIME&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;LIME — Explicación local de 3 predicciones&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.005</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Guardar tablas de las 3 explicaciones</span>
+<span class="n">lime_local_results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">cases</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="n">X_test_imputed</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">exp</span> <span class="o">=</span> <span class="n">explain_with_lime</span><span class="p">(</span><span class="n">explainer</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">predict_fn</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">df_exp</span> <span class="o">=</span> <span class="n">lime_to_dataframe</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+    <span class="n">lime_local_results</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;test_index&quot;</span><span class="p">:</span> <span class="n">idx</span><span class="p">,</span>
+        <span class="s2">&quot;y_true&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span>
+        <span class="s2">&quot;y_pred&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">y_pred_test</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span>
+        <span class="s2">&quot;explanations&quot;</span><span class="p">:</span> <span class="n">df_exp</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Top features por explicación local ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">cases</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> (test_idx=</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="n">X_test_imputed</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">exp</span> <span class="o">=</span> <span class="n">explain_with_lime</span><span class="p">(</span><span class="n">explainer</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">predict_fn</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">df_exp</span> <span class="o">=</span> <span class="n">lime_to_dataframe</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_exp</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01bf2f7a818b15c8cde7dbf2a433d66d4823cbb9472b96e6ea804ca90f15b8ad.png" src="../_images/01bf2f7a818b15c8cde7dbf2a433d66d4823cbb9472b96e6ea804ca90f15b8ad.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Top features por explicación local ===
+
+--- Predicción acertada (test_idx=318) ---
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             feature_condition    weight
+         hl_range_ma20 &lt;= 0.02 -0.004068
+         hl_range_ma10 &lt;= 0.02 -0.003009
+         0.42 &lt; atr_14 &lt;= 0.60 -0.002711
+            cum_ret_5 &lt;= -0.03  0.001976
+0.10 &lt; bb_bandwidth_20 &lt;= 0.14 -0.001072
+
+--- Predicción fallida (test_idx=584) ---
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      feature_condition    weight
+  hl_range_ma20 &lt;= 0.02 -0.004050
+  0.42 &lt; atr_14 &lt;= 0.60 -0.002666
+  hl_range_ma10 &lt;= 0.02 -0.002581
+     cum_ret_5 &lt;= -0.03  0.002226
+bb_bandwidth_20 &lt;= 0.10  0.001087
+
+--- Predicción promedio (test_idx=951) ---
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    feature_condition    weight
+hl_range_ma20 &lt;= 0.02 -0.003832
+0.42 &lt; atr_14 &lt;= 0.60 -0.002581
+hl_range_ma10 &lt;= 0.02 -0.002544
+  cum_ret_10 &lt;= -0.03  0.001517
+ vol_14_lag21 &lt;= 0.02 -0.001290
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación de LIME:</strong></p>
+<ul class="simple">
+<li><p><strong>Barras verdes (peso &gt; 0):</strong> la feature <strong>empuja la predicción hacia arriba</strong> (mayor volatilidad esperada).</p></li>
+<li><p><strong>Barras rojas (peso &lt; 0):</strong> la feature <strong>empuja la predicción hacia abajo</strong> (menor volatilidad esperada).</p></li>
+<li><p>El tamaño de la barra indica la magnitud del efecto local.</p></li>
+</ul>
+<p><strong>Predicción acertada:</strong> el modelo usó razonablemente las features relevantes; las contribuciones tienden a alinearse con el resultado real.</p>
+<p><strong>Predicción fallida:</strong> la explicación local revela qué features «engañaron» al modelo o qué información faltó. Útil para diagnóstico — quizá necesitamos features adicionales en una nueva iteración.</p>
+<p><strong>Predicción promedio:</strong> muestra el comportamiento típico del modelo, útil para entender la lógica general.</p>
+</div></blockquote>
+</section>
+<section id="persistir-resultados">
+<h2>7. Persistir resultados<a class="headerlink" href="#persistir-resultados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Guardar las importancias y las explicaciones LIME</span>
+<span class="n">interpretation_results</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;global_importance&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">imp_type</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">imp_type</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">importances</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;permutation_importance&quot;</span><span class="p">:</span> <span class="n">perm_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;lime_local&quot;</span><span class="p">:</span> <span class="n">lime_local_results</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># El JSON tiene que ser serializable</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_native</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">to_native</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">o</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">to_native</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">o</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">o</span>
+
+<span class="n">save_metrics</span><span class="p">(</span><span class="n">to_native</span><span class="p">(</span><span class="n">interpretation_results</span><span class="p">),</span> <span class="s2">&quot;interpretation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Resultados de interpretabilidad guardados en outputs/metrics/interpretation.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Resultados de interpretabilidad guardados en outputs/metrics/interpretation.json
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="resumen-del-notebook">
+<h2>8. Resumen del notebook<a class="headerlink" href="#resumen-del-notebook" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Análisis</p></th>
+<th class="head"><p>Resultado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Importancia XGBoost (gain)</p></td>
+<td><p>Identifica las features con mayor poder predictivo agregado</p></td>
+</tr>
+<tr class="row-odd"><td><p>Importancia XGBoost (weight)</p></td>
+<td><p>Detecta features muy usadas pero quizá poco informativas</p></td>
+</tr>
+<tr class="row-even"><td><p>Importancia XGBoost (cover)</p></td>
+<td><p>Mide alcance global de cada feature</p></td>
+</tr>
+<tr class="row-odd"><td><p>Permutation importance (test)</p></td>
+<td><p>Mide pérdida de RMSE al permutar cada feature</p></td>
+</tr>
+<tr class="row-even"><td><p>LIME — caso acertado</p></td>
+<td><p>Modelo usa features relevantes</p></td>
+</tr>
+<tr class="row-odd"><td><p>LIME — caso fallido</p></td>
+<td><p>Diagnóstico de error local</p></td>
+</tr>
+<tr class="row-even"><td><p>LIME — caso promedio</p></td>
+<td><p>Comportamiento típico del modelo</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Procede al notebook <code class="docutils literal notranslate"><span class="pre">11_modelos_avanzados.ipynb</span></code></strong> — modelos avanzados (LightGBM, CatBoost, MLP, LSTM).</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="09_comparacion_estadistica.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">9. Comparación Estadística de Modelos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="11_modelos_avanzados.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-y-cargar-el-modelo-xgboost-optimizado">1. Imports y cargar el modelo XGBoost optimizado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importancia-global-con-tres-metricas">2. Importancia global con tres métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-de-las-3-metricas">3. Visualización de las 3 métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permutation-importance">4. Permutation importance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-explicacion-local-de-predicciones">5. LIME — Explicación local de predicciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-explicaciones-lime-representativas">6. Tres explicaciones LIME representativas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-resultados">7. Persistir resultados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">8. Resumen del notebook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

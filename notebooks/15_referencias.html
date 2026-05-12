@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>15. Referencias Bibliográficas &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/15_referencias';</script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="prev" title="13. Comparación Final y Conclusiones" href="13_comparacion_final_y_conclusiones.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_comparacion_estadistica.html">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Modelo Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_optimizacion_y_refinamientos_hvrf.html">14. Optimización Computacional y Refinamientos HVRF</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">15. Referencias Bibliográficas</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/15_referencias.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>15. Referencias Bibliográficas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-de-equivalencia-papers-notebooks">Tabla de equivalencia papers → notebooks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-volatilidad-y-econometria-financiera">A. Volatilidad y econometría financiera</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-metodos-de-machine-learning">B. Métodos de Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-balanceo-de-clases">C. Balanceo de clases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-inferencia-estadistica-y-diagnosticos">D. Inferencia estadística y diagnósticos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-interpretabilidad">E. Interpretabilidad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notas">Notas</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="referencias-bibliograficas">
+<h1>15. Referencias Bibliográficas<a class="headerlink" href="#referencias-bibliograficas" title="Link to this heading">#</a></h1>
+<p><strong>Curso:</strong> Machine Learning · Pregrado en Ciencia de Datos · Universidad del Norte<br />
+<strong>Docente:</strong> Dr. Lihki Rubio<br />
+<strong>Equipo:</strong> Juan Camilo Conrado · Sergio Cadavid · Mateo Chang</p>
+<hr class="docutils" />
+<p>Este apéndice consolida las referencias bibliográficas citadas a lo largo del proyecto, en formato <strong>APA 7ª edición</strong>. Las referencias están agrupadas por temática para facilitar la consulta.</p>
+<p>Las mismas referencias están disponibles en formato BibTeX en <code class="docutils literal notranslate"><span class="pre">refs.bib</span></code> (raíz del repositorio) para uso en futuras publicaciones derivadas del proyecto.</p>
+<section id="tabla-de-equivalencia-papers-notebooks">
+<h2>Tabla de equivalencia papers → notebooks<a class="headerlink" href="#tabla-de-equivalencia-papers-notebooks" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Paper</p></th>
+<th class="head"><p>Notebook donde se cita</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mandelbrot (1963) — volatility clustering</p></td>
+<td><p>NB 01, NB 10</p></td>
+</tr>
+<tr class="row-odd"><td><p>Box &amp; Jenkins (1970) — ARIMA</p></td>
+<td><p>NB 03</p></td>
+</tr>
+<tr class="row-even"><td><p>Hoerl &amp; Kennard (1970) — Ridge</p></td>
+<td><p>NB 04</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ljung &amp; Box (1978) — autocorrelación</p></td>
+<td><p>NB 08</p></td>
+</tr>
+<tr class="row-even"><td><p>White (1980) — heterocedasticidad</p></td>
+<td><p>NB 08</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jarque &amp; Bera (1980) — normalidad</p></td>
+<td><p>NB 08</p></td>
+</tr>
+<tr class="row-even"><td><p>Engle (1982) — ARCH</p></td>
+<td><p>NB 10</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bollerslev (1986) — GARCH</p></td>
+<td><p>NB 03, NB 10</p></td>
+</tr>
+<tr class="row-even"><td><p>Hamilton (1989) — regime-switching</p></td>
+<td><p>NB 12</p></td>
+</tr>
+<tr class="row-odd"><td><p>Diebold &amp; Mariano (1995) — DM test</p></td>
+<td><p>NB 09, NB 12, NB 13</p></td>
+</tr>
+<tr class="row-even"><td><p>Brock et al. (1996) — BDS</p></td>
+<td><p>NB 08</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tibshirani (1996) — Lasso</p></td>
+<td><p>NB 04</p></td>
+</tr>
+<tr class="row-even"><td><p>J.P. Morgan (1996) — RiskMetrics / EWMA</p></td>
+<td><p>NB 03, NB 12</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hochreiter &amp; Schmidhuber (1997) — LSTM</p></td>
+<td><p>NB 11</p></td>
+</tr>
+<tr class="row-even"><td><p>Breiman (2001) — Random Forest</p></td>
+<td><p>NB 04</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ang &amp; Bekaert (2002) — regime shifts</p></td>
+<td><p>NB 12</p></td>
+</tr>
+<tr class="row-even"><td><p>Chawla et al. (2002) — SMOTE</p></td>
+<td><p>NB 06</p></td>
+</tr>
+<tr class="row-odd"><td><p>Poon &amp; Granger (2003) — survey volatilidad</p></td>
+<td><p>metodología general</p></td>
+</tr>
+<tr class="row-even"><td><p>He et al. (2008) — ADASYN</p></td>
+<td><p>NB 06</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sun &amp; Xu (2014) — DeLong rápido</p></td>
+<td><p>NB 09</p></td>
+</tr>
+<tr class="row-even"><td><p>Chen &amp; Guestrin (2016) — XGBoost</p></td>
+<td><p>NB 04, NB 07</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ribeiro et al. (2016) — LIME</p></td>
+<td><p>NB 10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="a-volatilidad-y-econometria-financiera">
+<h2>A. Volatilidad y econometría financiera<a class="headerlink" href="#a-volatilidad-y-econometria-financiera" title="Link to this heading">#</a></h2>
+<p>Ang, A., &amp; Bekaert, G. (2002). International asset allocation with regime shifts. <em>The Review of Financial Studies</em>, 15(4), 1137–1187. <a class="reference external" href="https://doi.org/10.1093/rfs/15.4.1137">https://doi.org/10.1093/rfs/15.4.1137</a></p>
+<p>Bollerslev, T. (1986). Generalized autoregressive conditional heteroskedasticity. <em>Journal of Econometrics</em>, 31(3), 307–327. <a class="reference external" href="https://doi.org/10.1016/0304-4076(86)90063-1">https://doi.org/10.1016/0304-4076(86)90063-1</a></p>
+<p>Box, G. E. P., &amp; Jenkins, G. M. (1970). <em>Time series analysis: Forecasting and control</em>. Holden-Day.</p>
+<p>Engle, R. F. (1982). Autoregressive conditional heteroscedasticity with estimates of the variance of United Kingdom inflation. <em>Econometrica</em>, 50(4), 987–1007. <a class="reference external" href="https://doi.org/10.2307/1912773">https://doi.org/10.2307/1912773</a></p>
+<p>Hamilton, J. D. (1989). A new approach to the economic analysis of nonstationary time series and the business cycle. <em>Econometrica</em>, 57(2), 357–384. <a class="reference external" href="https://doi.org/10.2307/1912559">https://doi.org/10.2307/1912559</a></p>
+<p>J.P. Morgan/Reuters. (1996). <em>RiskMetrics — Technical document</em> (4th ed.). J.P. Morgan/Reuters.</p>
+<p>Mandelbrot, B. (1963). The variation of certain speculative prices. <em>The Journal of Business</em>, 36(4), 394–419. <a class="reference external" href="https://doi.org/10.1086/294632">https://doi.org/10.1086/294632</a></p>
+<p>Poon, S.-H., &amp; Granger, C. W. J. (2003). Forecasting volatility in financial markets: A review. <em>Journal of Economic Literature</em>, 41(2), 478–539. <a class="reference external" href="https://doi.org/10.1257/002205103765762743">https://doi.org/10.1257/002205103765762743</a></p>
+</section>
+<section id="b-metodos-de-machine-learning">
+<h2>B. Métodos de Machine Learning<a class="headerlink" href="#b-metodos-de-machine-learning" title="Link to this heading">#</a></h2>
+<p>Breiman, L. (2001). Random forests. <em>Machine Learning</em>, 45(1), 5–32. <a class="reference external" href="https://doi.org/10.1023/A:1010933404324">https://doi.org/10.1023/A:1010933404324</a></p>
+<p>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em> (pp. 785–794). ACM. <a class="reference external" href="https://doi.org/10.1145/2939672.2939785">https://doi.org/10.1145/2939672.2939785</a></p>
+<p>Hochreiter, S., &amp; Schmidhuber, J. (1997). Long short-term memory. <em>Neural Computation</em>, 9(8), 1735–1780. <a class="reference external" href="https://doi.org/10.1162/neco.1997.9.8.1735">https://doi.org/10.1162/neco.1997.9.8.1735</a></p>
+<p>Hoerl, A. E., &amp; Kennard, R. W. (1970). Ridge regression: Biased estimation for nonorthogonal problems. <em>Technometrics</em>, 12(1), 55–67. <a class="reference external" href="https://doi.org/10.1080/00401706.1970.10488634">https://doi.org/10.1080/00401706.1970.10488634</a></p>
+<p>Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, 58(1), 267–288. <a class="reference external" href="https://doi.org/10.1111/j.2517-6161.1996.tb02080.x">https://doi.org/10.1111/j.2517-6161.1996.tb02080.x</a></p>
+</section>
+<section id="c-balanceo-de-clases">
+<h2>C. Balanceo de clases<a class="headerlink" href="#c-balanceo-de-clases" title="Link to this heading">#</a></h2>
+<p>Chawla, N. V., Bowyer, K. W., Hall, L. O., &amp; Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. <em>Journal of Artificial Intelligence Research</em>, 16, 321–357. <a class="reference external" href="https://doi.org/10.1613/jair.953">https://doi.org/10.1613/jair.953</a></p>
+<p>He, H., Bai, Y., Garcia, E. A., &amp; Li, S. (2008). ADASYN: Adaptive synthetic sampling approach for imbalanced learning. In <em>IEEE International Joint Conference on Neural Networks</em> (pp. 1322–1328). IEEE. <a class="reference external" href="https://doi.org/10.1109/IJCNN.2008.4633969">https://doi.org/10.1109/IJCNN.2008.4633969</a></p>
+</section>
+<section id="d-inferencia-estadistica-y-diagnosticos">
+<h2>D. Inferencia estadística y diagnósticos<a class="headerlink" href="#d-inferencia-estadistica-y-diagnosticos" title="Link to this heading">#</a></h2>
+<p>Brock, W. A., Dechert, W. D., Scheinkman, J. A., &amp; LeBaron, B. (1996). A test for independence based on the correlation dimension. <em>Econometric Reviews</em>, 15(3), 197–235. <a class="reference external" href="https://doi.org/10.1080/07474939608800353">https://doi.org/10.1080/07474939608800353</a></p>
+<p>DeLong, E. R., DeLong, D. M., &amp; Clarke-Pearson, D. L. (1988). Comparing the areas under two or more correlated receiver operating characteristic curves: A nonparametric approach. <em>Biometrics</em>, 44(3), 837–845. <a class="reference external" href="https://doi.org/10.2307/2531595">https://doi.org/10.2307/2531595</a></p>
+<p>Demšar, J. (2006). Statistical comparisons of classifiers over multiple data sets. <em>Journal of Machine Learning Research</em>, 7, 1–30.</p>
+<p>Diebold, F. X., &amp; Mariano, R. S. (1995). Comparing predictive accuracy. <em>Journal of Business &amp; Economic Statistics</em>, 13(3), 253–263. <a class="reference external" href="https://doi.org/10.1080/07350015.1995.10524599">https://doi.org/10.1080/07350015.1995.10524599</a></p>
+<p>Jarque, C. M., &amp; Bera, A. K. (1980). Efficient tests for normality, homoscedasticity and serial independence of regression residuals. <em>Economics Letters</em>, 6(3), 255–259. <a class="reference external" href="https://doi.org/10.1016/0165-1765(80)90024-5">https://doi.org/10.1016/0165-1765(80)90024-5</a></p>
+<p>Ljung, G. M., &amp; Box, G. E. P. (1978). On a measure of lack of fit in time series models. <em>Biometrika</em>, 65(2), 297–303. <a class="reference external" href="https://doi.org/10.1093/biomet/65.2.297">https://doi.org/10.1093/biomet/65.2.297</a></p>
+<p>Sun, X., &amp; Xu, W. (2014). Fast implementation of DeLong’s algorithm for comparing the areas under correlated receiver operating characteristic curves. <em>IEEE Signal Processing Letters</em>, 21(11), 1389–1393. <a class="reference external" href="https://doi.org/10.1109/LSP.2014.2337313">https://doi.org/10.1109/LSP.2014.2337313</a></p>
+<p>White, H. (1980). A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. <em>Econometrica</em>, 48(4), 817–838. <a class="reference external" href="https://doi.org/10.2307/1912934">https://doi.org/10.2307/1912934</a></p>
+</section>
+<section id="e-interpretabilidad">
+<h2>E. Interpretabilidad<a class="headerlink" href="#e-interpretabilidad" title="Link to this heading">#</a></h2>
+<p>Ribeiro, M. T., Singh, S., &amp; Guestrin, C. (2016). «Why should I trust you?»: Explaining the predictions of any classifier. In <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em> (pp. 1135–1144). ACM. <a class="reference external" href="https://doi.org/10.1145/2939672.2939778">https://doi.org/10.1145/2939672.2939778</a></p>
+<hr class="docutils" />
+<section id="notas">
+<h3>Notas<a class="headerlink" href="#notas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Las referencias siguen el formato <strong>APA 7ª edición</strong> con DOIs verificables.</p></li>
+<li><p>Las páginas exactas de Box &amp; Jenkins (1970) y J.P. Morgan (1996) no se reportan porque son libros/manuales completos.</p></li>
+<li><p>Cualquier cita adicional usada incidentalmente en algún notebook (p.ej. Shwartz-Ziv &amp; Armon 2022 sobre Deep Learning tabular, citado en NB 11) se referencia in-text en el notebook correspondiente.</p></li>
+<li><p>Para citar este proyecto: <em>Conrado, J. C., Cadavid, S., &amp; Chang, M. (2026). INTC-VolForecast: Predicción de volatilidad realizada de Intel Corporation con Machine Learning [Trabajo de curso]. Universidad del Norte.</em></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="13_comparacion_final_y_conclusiones.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">13. Comparación Final y Conclusiones</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-de-equivalencia-papers-notebooks">Tabla de equivalencia papers → notebooks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-volatilidad-y-econometria-financiera">A. Volatilidad y econometría financiera</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-metodos-de-machine-learning">B. Métodos de Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-balanceo-de-clases">C. Balanceo de clases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-inferencia-estadistica-y-diagnosticos">D. Inferencia estadística y diagnósticos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-interpretabilidad">E. Interpretabilidad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notas">Notas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

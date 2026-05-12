@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>9. Comparación Estadística de Modelos &#8212; INTC-VolForecast</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/09_comparacion_estadistica';</script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="10. Interpretabilidad" href="10_interpretabilidad.html" />
+    <link rel="prev" title="8. Residuos y Diagnósticos" href="08_residuos_y_diagnosticos.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INTC-VolForecast</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte I — Datos y Exploración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_setup.html">0. Verificación del Entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_eda.html">1. Análisis Exploratorio (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_features_and_targets.html">2. Features y Targets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte II — Benchmarks y Modelos Base</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03_benchmarks_temporales.html">3. Benchmarks de Series de Tiempo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_regresion_ml.html">4. Modelos de Regresión (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_clasificacion_ml.html">5. Modelos de Clasificación (ML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_balanceo_clases.html">6. Balanceo de Clases</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte III — Optimización y Diagnósticos</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07_optimizacion_hiperparametros.html">7. Optimización de Hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_residuos_y_diagnosticos.html">8. Residuos y Diagnósticos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Comparación Estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_interpretabilidad.html">10. Interpretabilidad</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte IV — Modelos Avanzados y Modelo Original</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11_modelos_avanzados.html">11. Modelos Avanzados (LightGBM, CatBoost, MLP, LSTM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_hvrf_modelo_original.html">12. HVRF — Modelo Original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_optimizacion_y_refinamientos_hvrf.html">14. Optimización Computacional y Refinamientos HVRF</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parte V — Síntesis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="13_comparacion_final_y_conclusiones.html">13. Comparación Final y Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_referencias.html">15. Referencias Bibliográficas</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/09_comparacion_estadistica.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>9. Comparación Estadística de Modelos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-y-carga-de-predicciones">1. Imports y carga de predicciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacion-de-regresion-diebold-mariano-por-pares">2. Comparación de regresión: Diebold-Mariano por pares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-de-p-valores-dm">3. Heatmap de p-valores DM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-ci-95-para-rmse">4. Bootstrap CI 95% para RMSE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-de-ic-bootstrap">5. Visualización de IC bootstrap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-delong-real-por-pares">6. Clasificación: DeLong real por pares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-de-p-valores-delong">7. Heatmap de p-valores DeLong</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-ci-95-para-auc">8. Bootstrap CI 95% para AUC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correccion-de-bonferroni">9. Corrección de Bonferroni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-resultados">10. Persistir resultados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">11. Resumen del notebook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comparacion-estadistica-de-modelos">
+<h1>9. Comparación Estadística de Modelos<a class="headerlink" href="#comparacion-estadistica-de-modelos" title="Link to this heading">#</a></h1>
+<p><strong>Curso:</strong> Machine Learning · Pregrado en Ciencia de Datos · Universidad del Norte
+<strong>Docente:</strong> Dr. Lihki Rubio
+<strong>Equipo:</strong> Juan Camilo Conrado · Sergio Cadavid · Mateo Chang</p>
+<hr class="docutils" />
+<p>Este notebook responde con <strong>rigor estadístico</strong> la pregunta más importante del proyecto:</p>
+<blockquote>
+<div><p><strong>¿Es alguna diferencia de desempeño entre modelos <em>estadísticamente significativa</em>, o es solo ruido del muestreo?</strong></p>
+</div></blockquote>
+<p>Pruebas aplicadas:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Prueba</p></th>
+<th class="head"><p>Para qué</p></th>
+<th class="head"><p>Estándar académico</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Diebold-Mariano (1995)</strong></p></td>
+<td><p>Comparar precisión predictiva (regresión)</p></td>
+<td><p>Sí, con corrección Newey-West</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>DeLong (1988)</strong></p></td>
+<td><p>Comparar AUC entre clasificadores</p></td>
+<td><p>Sí, con matrices de influencia</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bootstrap percentile</strong></p></td>
+<td><p>IC al 95% para cualquier métrica</p></td>
+<td><p>Robusto a no-normalidad</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Bonferroni</strong></p></td>
+<td><p>Corrección por comparaciones múltiples</p></td>
+<td><p>Conservador, controla FWER</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Implementación de DeLong:</strong> este notebook usa la implementación basada en <strong>matrices de influencia</strong> según Sun &amp; Xu (2014), no bootstrap. Es la versión correcta del test, alineada con la sección 9.9 de las notas del Dr. Lihki.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path setup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="n">_root</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;notebooks&quot;</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">_root</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="imports-y-carga-de-predicciones">
+<h2>1. Imports y carga de predicciones<a class="headerlink" href="#imports-y-carga-de-predicciones" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span>
+                              <span class="n">r2_score</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.io_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_processed</span><span class="p">,</span> <span class="n">load_predictions_df</span><span class="p">,</span> <span class="n">save_metrics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.stats_tests</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">diebold_mariano_matrix</span><span class="p">,</span> <span class="n">delong_test_matrix</span><span class="p">,</span>
+                              <span class="n">bootstrap_metric</span><span class="p">,</span> <span class="n">bonferroni_correction</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_style</span>
+
+<span class="n">set_style</span><span class="p">()</span>
+
+<span class="c1"># Predicciones de regresión: ML + benchmarks (si existen)</span>
+<span class="n">preds_reg</span> <span class="o">=</span> <span class="n">load_predictions_df</span><span class="p">(</span><span class="s2">&quot;reg_test_preds&quot;</span><span class="p">)</span>
+<span class="n">y_true_reg</span> <span class="o">=</span> <span class="n">preds_reg</span><span class="p">[</span><span class="s2">&quot;y_true&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">reg_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">preds_reg</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;y_true&quot;</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Modelos de regresión a comparar: </span><span class="si">{</span><span class="n">reg_models</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Intentar cargar también benchmarks econométricos</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">bench_preds</span> <span class="o">=</span> <span class="n">load_predictions_df</span><span class="p">(</span><span class="s2">&quot;benchmarks_test_preds&quot;</span><span class="p">)</span>
+    <span class="n">bench_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bench_preds</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;y_true&quot;</span><span class="p">]]</span>
+    <span class="c1"># Asegurar mismo y_true entre archivos</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">bench_preds</span><span class="p">[</span><span class="s2">&quot;y_true&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">y_true_reg</span><span class="p">)],</span>
+                        <span class="n">y_true_reg</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">bench_preds</span><span class="p">)],</span> <span class="n">equal_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> \
+        <span class="s2">&quot;Mismatch entre y_true de benchmarks y reg&quot;</span>
+    <span class="c1"># Combinar en un solo dataframe</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">preds_reg</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bench_preds</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">bench_models</span><span class="p">:</span>
+        <span class="n">preds_reg</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">preds_reg</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">bench_preds</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">reg_models</span> <span class="o">=</span> <span class="n">reg_models</span> <span class="o">+</span> <span class="n">bench_models</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  + benchmarks econométricos: </span><span class="si">{</span><span class="n">bench_models</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️ benchmarks_test_preds no disponible — se omiten (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Predicciones de clasificación</span>
+<span class="n">preds_clf</span> <span class="o">=</span> <span class="n">load_predictions_df</span><span class="p">(</span><span class="s2">&quot;clf_test_preds&quot;</span><span class="p">)</span>
+<span class="n">y_true_clf</span> <span class="o">=</span> <span class="n">preds_clf</span><span class="p">[</span><span class="s2">&quot;y_true&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">clf_proba_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">preds_clf</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_proba&quot;</span><span class="p">)]</span>
+<span class="n">clf_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_proba&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clf_proba_cols</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modelos de clasificación: </span><span class="si">{</span><span class="n">clf_models</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modelos de regresión a comparar: [&#39;KNN&#39;, &#39;Ridge&#39;, &#39;Lasso&#39;, &#39;ElasticNet&#39;, &#39;Decision Tree&#39;, &#39;Random Forest&#39;, &#39;SVR&#39;, &#39;XGBoost&#39;]
+  + benchmarks econométricos: [&#39;Naive&#39;, &#39;Rolling Mean&#39;, &#39;EWMA&#39;, &#39;ARIMA&#39;, &#39;GARCH(1,1)&#39;]
+
+Modelos de clasificación: [&#39;KNN&#39;, &#39;LogReg L1&#39;, &#39;LogReg L2&#39;, &#39;Naive Bayes&#39;, &#39;Decision Tree&#39;, &#39;Random Forest&#39;, &#39;SVM&#39;, &#39;XGBoost&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparacion-de-regresion-diebold-mariano-por-pares">
+<h2>2. Comparación de regresión: Diebold-Mariano por pares<a class="headerlink" href="#comparacion-de-regresion-diebold-mariano-por-pares" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construir dict {modelo: y_pred}</span>
+<span class="n">preds_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">preds_reg</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">reg_models</span>
+              <span class="k">if</span> <span class="ow">not</span> <span class="n">preds_reg</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()}</span>
+<span class="n">omitted</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">reg_models</span> <span class="k">if</span> <span class="n">m</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">preds_dict</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">omitted</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️ Modelos omitidos por NaN: </span><span class="si">{</span><span class="n">omitted</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">dm_pvalues</span><span class="p">,</span> <span class="n">dm_diff_rmse</span> <span class="o">=</span> <span class="n">diebold_mariano_matrix</span><span class="p">(</span><span class="n">preds_dict</span><span class="p">,</span> <span class="n">y_true_reg</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== p-valores de Diebold-Mariano (regresión, MSE loss) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dm_pvalues</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   (p &lt; 0.05: diferencia significativa entre los dos modelos)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== p-valores de Diebold-Mariano (regresión, MSE loss) ===
+                  KNN   Ridge   Lasso  ElasticNet  Decision Tree  Random Forest    SVR  XGBoost   Naive  Rolling Mean    EWMA   ARIMA  GARCH(1,1)
+KNN            1.0000  0.0000  0.0000      0.0000         0.0001         0.9488  0.000   0.1966  0.0366        0.0000  0.0000  0.0366         0.0
+Ridge          0.0000  1.0000  0.0002      0.4603         0.0000         0.0000  0.000   0.0000  0.0000        0.3781  0.3801  0.0000         0.0
+Lasso          0.0000  0.0002  1.0000      0.0000         0.0000         0.0000  0.000   0.0000  0.0000        0.0061  0.0068  0.0000         0.0
+ElasticNet     0.0000  0.4603  0.0000      1.0000         0.0000         0.0000  0.000   0.0000  0.0000        0.2176  0.2218  0.0000         0.0
+Decision Tree  0.0001  0.0000  0.0000      0.0000         1.0000         0.0001  0.004   0.0001  0.0001        0.0000  0.0000  0.0001         0.0
+Random Forest  0.9488  0.0000  0.0000      0.0000         0.0001         1.0000  0.000   0.0159  0.0595        0.0000  0.0000  0.0595         0.0
+SVR            0.0000  0.0000  0.0000      0.0000         0.0040         0.0000  1.000   0.0000  0.0000        0.0000  0.0000  0.0000         0.0
+XGBoost        0.1966  0.0000  0.0000      0.0000         0.0001         0.0159  0.000   1.0000  0.5565        0.0000  0.0000  0.5565         0.0
+Naive          0.0366  0.0000  0.0000      0.0000         0.0001         0.0595  0.000   0.5565  1.0000        0.0000  0.0000  1.0000         0.0
+Rolling Mean   0.0000  0.3781  0.0061      0.2176         0.0000         0.0000  0.000   0.0000  0.0000        1.0000  0.8204  0.0000         0.0
+EWMA           0.0000  0.3801  0.0068      0.2218         0.0000         0.0000  0.000   0.0000  0.0000        0.8204  1.0000  0.0000         0.0
+ARIMA          0.0366  0.0000  0.0000      0.0000         0.0001         0.0595  0.000   0.5565  1.0000        0.0000  0.0000  1.0000         0.0
+GARCH(1,1)     0.0000  0.0000  0.0000      0.0000         0.0000         0.0000  0.000   0.0000  0.0000        0.0000  0.0000  0.0000         1.0
+
+   (p &lt; 0.05: diferencia significativa entre los dos modelos)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="heatmap-de-p-valores-dm">
+<h2>3. Heatmap de p-valores DM<a class="headerlink" href="#heatmap-de-p-valores-dm" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">dm_pvalues</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">dm_pvalues</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.3f&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlGn_r&quot;</span><span class="p">,</span>
+            <span class="n">center</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;p-valor&quot;</span><span class="p">},</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Diebold-Mariano: p-valores por pares (regresión)</span><span class="se">\n</span><span class="s2">Verde=sig.diferentes  Rojo=indistinguibles&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/60b2d53cfaaf27a6054bf82a23a4033bc41da8c617bd6d089cdc01ed08965eb8.png" src="../_images/60b2d53cfaaf27a6054bf82a23a4033bc41da8c617bd6d089cdc01ed08965eb8.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Cómo leer el heatmap de Diebold-Mariano (Diebold &amp; Mariano 1995):</strong></p>
+<p>El heatmap codifica el p-valor del test DM para <strong>cada par de modelos</strong> (i, j):</p>
+<ul class="simple">
+<li><p><strong>H₀:</strong> ambos modelos producen el mismo error cuadrático esperado.</p></li>
+<li><p><strong>H₁:</strong> sus errores cuadráticos son distintos.</p></li>
+<li><p><strong>Verde oscuro (p &lt; 0.05):</strong> rechazamos H₀ — diferencia significativa entre los dos modelos.</p></li>
+<li><p><strong>Amarillo / rojo (p ≥ 0.05):</strong> no podemos rechazar H₀ — los modelos son <strong>estadísticamente indistinguibles</strong> aunque sus RMSE puntuales difieran.</p></li>
+</ul>
+<p><strong>Lectura por grupos en nuestra matriz:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Bloque «lineales-suavizadores»</strong> (Ridge, ElasticNet, Rolling Mean, EWMA): los p-valores intra-grupo se sitúan entre 0.22 y 0.82 — son <strong>mutuamente indistinguibles</strong>. La elección entre ellos debe basarse en parsimonia o interpretabilidad, no en RMSE puntual.</p></li>
+<li><p><strong>Bloque «ensambles de árboles + naive»</strong> (Random Forest, XGBoost, KNN, Naive, ARIMA): p-valores entre 0.16 y 0.95 — otro cluster de modelos equivalentes entre sí, pero <strong>estadísticamente peor</strong> que el bloque (1) (ej. Ridge vs Random Forest: p&lt;0.0001).</p></li>
+<li><p><strong>Outliers claramente peores</strong> (Decision Tree, SVR, GARCH(1,1)): significativamente distintos (peor) contra casi todos los demás modelos. GARCH(1,1) muestra p&lt;0.0001 sistemáticamente — consecuencia del artefacto del forecast multi-paso documentado en la nota técnica del NB 03.</p></li>
+</ol>
+<p><strong>Conclusión metodológica:</strong> no hay un único ganador estadístico — hay un <strong>grupo líder equivalente entre sí</strong>. Esta es la situación más común en comparaciones rigurosas de modelos: la diferencia entre los top-5 es ruido de muestreo, no señal predictiva. El reporte honesto NO declara «Ridge ganó» sino «Ridge pertenece al grupo de modelos no-distinguibles del óptimo».</p>
+</div></blockquote>
+</section>
+<section id="bootstrap-ci-95-para-rmse">
+<h2>4. Bootstrap CI 95% para RMSE<a class="headerlink" href="#bootstrap-ci-95-para-rmse" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">yp</span> <span class="ow">in</span> <span class="n">preds_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">boot</span> <span class="o">=</span> <span class="n">bootstrap_metric</span><span class="p">(</span>
+        <span class="n">y_true_reg</span><span class="p">,</span> <span class="n">yp</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">yt</span><span class="p">,</span> <span class="n">ypp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">yt</span><span class="p">,</span> <span class="n">ypp</span><span class="p">)),</span>
+        <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+    <span class="p">)</span>
+    <span class="n">boot_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;Modelo&quot;</span><span class="p">:</span>     <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;RMSE_mean&quot;</span><span class="p">:</span>  <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_lower&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_lower&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_upper&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_upper&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_width&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_lower&quot;</span><span class="p">],</span>
+    <span class="p">})</span>
+
+<span class="n">df_boot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">boot_results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;RMSE_mean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Bootstrap CI 95% para RMSE (n=1000) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_boot</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Bootstrap CI 95% para RMSE (n=1000) ===
+       Modelo  RMSE_mean  CI_lower  CI_upper  CI_width
+         EWMA   0.006497  0.006052  0.006956  0.000904
+ Rolling Mean   0.006497  0.006057  0.006954  0.000897
+        Ridge   0.006587  0.006218  0.006984  0.000766
+   ElasticNet   0.006619  0.006268  0.007001  0.000733
+        Lasso   0.006775  0.006436  0.007127  0.000691
+Random Forest   0.007067  0.006719  0.007412  0.000693
+          KNN   0.007074  0.006693  0.007471  0.000779
+      XGBoost   0.007210  0.006883  0.007541  0.000659
+        Naive   0.007276  0.006980  0.007583  0.000603
+        ARIMA   0.007276  0.006980  0.007583  0.000603
+          SVR   0.008344  0.007937  0.008733  0.000795
+Decision Tree   0.011111  0.009536  0.012788  0.003252
+   GARCH(1,1)   0.014518  0.014203  0.014830  0.000627
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizacion-de-ic-bootstrap">
+<h2>5. Visualización de IC bootstrap<a class="headerlink" href="#visualizacion-de-ic-bootstrap" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">y_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_boot</span><span class="p">))</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;RMSE_mean&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;CI_lower&quot;</span><span class="p">],</span>
+    <span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;CI_upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;RMSE_mean&quot;</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;RMSE_mean&quot;</span><span class="p">],</span> <span class="n">y_pos</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1976D2&quot;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">capthick</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">ecolor</span><span class="o">=</span><span class="s2">&quot;#FF9800&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">y_pos</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">df_boot</span><span class="p">[</span><span class="s2">&quot;Modelo&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;RMSE (con IC 95% bootstrap)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ranking de modelos de regresión por RMSE — IC 95% Bootstrap&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ea2dab0cf7751f2a6de19d41f2701048a7f8165a3c33f41314ccac9c867513ba.png" src="../_images/ea2dab0cf7751f2a6de19d41f2701048a7f8165a3c33f41314ccac9c867513ba.png" />
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación:</strong> Cuando los IC bootstrap de dos modelos <strong>se traslapan</strong>, sus RMSEs no son distinguibles estadísticamente — aunque uno tenga un valor puntual menor. Cuando NO se traslapan, hay evidencia clara de que un modelo es superior. Esta visualización suele revelar que <strong>los modelos de la cima del ranking son estadísticamente equivalentes</strong>, lo cual es un hallazgo legítimo (no hay un «ganador único»; hay un «grupo líder»).</p>
+</div></blockquote>
+</section>
+<section id="clasificacion-delong-real-por-pares">
+<h2>6. Clasificación: DeLong real por pares<a class="headerlink" href="#clasificacion-delong-real-por-pares" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">preds_clf</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">_proba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">clf_models</span><span class="p">}</span>
+
+<span class="n">dl_pvalues</span><span class="p">,</span> <span class="n">dl_diff_auc</span> <span class="o">=</span> <span class="n">delong_test_matrix</span><span class="p">(</span><span class="n">probs_dict</span><span class="p">,</span> <span class="n">y_true_clf</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== p-valores de DeLong (clasificación, AUC) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dl_pvalues</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== p-valores de DeLong (clasificación, AUC) ===
+                 KNN  LogReg L1  LogReg L2  Naive Bayes  Decision Tree  Random Forest     SVM  XGBoost
+KNN            1.000     0.0000     0.0000       0.0050            0.0         0.0000  0.0000   0.0000
+LogReg L1      0.000     1.0000     0.9582       0.0000            0.0         0.0009  0.3605   0.2794
+LogReg L2      0.000     0.9582     1.0000       0.0000            0.0         0.0009  0.3567   0.2823
+Naive Bayes    0.005     0.0000     0.0000       1.0000            0.0         0.3211  0.0000   0.0097
+Decision Tree  0.000     0.0000     0.0000       0.0000            1.0         0.0000  0.0000   0.0000
+Random Forest  0.000     0.0009     0.0009       0.3211            0.0         1.0000  0.0000   0.0028
+SVM            0.000     0.3605     0.3567       0.0000            0.0         0.0000  1.0000   0.0317
+XGBoost        0.000     0.2794     0.2823       0.0097            0.0         0.0028  0.0317   1.0000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="heatmap-de-p-valores-delong">
+<h2>7. Heatmap de p-valores DeLong<a class="headerlink" href="#heatmap-de-p-valores-delong" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Nota de implementación — DeLong vía matrices de influencia (Sun &amp; Xu 2014):</strong></p>
+<p>El test original de DeLong et al. (1988) compara dos AUCs estimando su matriz de covarianza vía <strong>U-estadísticos</strong>, lo cual es O(n²) en muestras y poco práctico para n grande. <strong>Sun &amp; Xu (2014)</strong> propusieron una reformulación usando <strong>funciones de influencia</strong> que reduce el costo a O(n log n) y produce exactamente las mismas estimaciones puntuales.</p>
+<p>Nuestra implementación (<code class="docutils literal notranslate"><span class="pre">src/stats_tests.py::delong_test_matrix</span></code>) sigue Sun &amp; Xu 2014: para cada par de clasificadores, calcula sus <strong>scores de influencia</strong> sobre las muestras positivas y negativas, ensambla la matriz de covarianza analítica, y produce un p-valor cerrado — sin bootstrap. Es la versión correcta y eficiente del test, alineada con la sección 9.9 de las notas del Dr. Lihki.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">dl_pvalues</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">dl_pvalues</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.3f&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlGn_r&quot;</span><span class="p">,</span>
+            <span class="n">center</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;p-valor&quot;</span><span class="p">},</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;DeLong: p-valores por pares (clasificación)</span><span class="se">\n</span><span class="s2">Verde=sig.diferentes  Rojo=indistinguibles&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/04eeea04ec11f08f71d7b70d5b60a00eb2ba6b81250acfb976f9aeafe654b2ab.png" src="../_images/04eeea04ec11f08f71d7b70d5b60a00eb2ba6b81250acfb976f9aeafe654b2ab.png" />
+</div>
+</div>
+</section>
+<section id="bootstrap-ci-95-para-auc">
+<h2>8. Bootstrap CI 95% para AUC<a class="headerlink" href="#bootstrap-ci-95-para-auc" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot_auc</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">clf_models</span><span class="p">:</span>
+    <span class="n">boot</span> <span class="o">=</span> <span class="n">bootstrap_metric</span><span class="p">(</span>
+        <span class="n">y_true_clf</span><span class="p">,</span> <span class="n">probs_dict</span><span class="p">[</span><span class="n">m</span><span class="p">],</span>
+        <span class="k">lambda</span> <span class="n">yt</span><span class="p">,</span> <span class="n">ypp</span><span class="p">:</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">yt</span><span class="p">,</span> <span class="n">ypp</span><span class="p">),</span>
+        <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+    <span class="p">)</span>
+    <span class="n">boot_auc</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;Modelo&quot;</span><span class="p">:</span>     <span class="n">m</span><span class="p">,</span>
+        <span class="s2">&quot;AUC_mean&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_lower&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_lower&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_upper&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_upper&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;CI_width&quot;</span><span class="p">:</span>   <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">boot</span><span class="p">[</span><span class="s2">&quot;ci_lower&quot;</span><span class="p">],</span>
+    <span class="p">})</span>
+
+<span class="n">df_auc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">boot_auc</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;AUC_mean&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Bootstrap CI 95% para AUC ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_auc</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Bootstrap CI 95% para AUC ===
+       Modelo  AUC_mean  CI_lower  CI_upper  CI_width
+          SVM    0.7971    0.7706    0.8231    0.0524
+    LogReg L1    0.7917    0.7642    0.8179    0.0537
+    LogReg L2    0.7917    0.7641    0.8182    0.0542
+      XGBoost    0.7814    0.7535    0.8075    0.0540
+Random Forest    0.7614    0.7341    0.7899    0.0557
+  Naive Bayes    0.7503    0.7209    0.7788    0.0579
+          KNN    0.7113    0.6826    0.7408    0.0582
+Decision Tree    0.6314    0.5986    0.6651    0.0664
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="correccion-de-bonferroni">
+<h2>9. Corrección de Bonferroni<a class="headerlink" href="#correccion-de-bonferroni" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aplicar Bonferroni a las comparaciones DM y DeLong</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">upper_triangle</span><span class="p">(</span><span class="n">df_pvalues</span><span class="p">):</span>
+    <span class="n">pvs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">df_pvalues</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)):</span>
+            <span class="n">pvs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_pvalues</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pvs</span><span class="p">)</span>
+
+<span class="n">dm_pvs</span> <span class="o">=</span> <span class="n">upper_triangle</span><span class="p">(</span><span class="n">dm_pvalues</span><span class="p">)</span>
+<span class="n">dl_pvs</span> <span class="o">=</span> <span class="n">upper_triangle</span><span class="p">(</span><span class="n">dl_pvalues</span><span class="p">)</span>
+
+<span class="n">bf_dm</span> <span class="o">=</span> <span class="n">bonferroni_correction</span><span class="p">(</span><span class="n">dm_pvs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">bf_dl</span> <span class="o">=</span> <span class="n">bonferroni_correction</span><span class="p">(</span><span class="n">dl_pvs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Corrección de Bonferroni ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DM (regresión):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">bf_dm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">35s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">DeLong (clasificación):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">bf_dl</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">35s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Corrección de Bonferroni ===
+
+DM (regresión):
+  alpha_original                      0.05
+  n_comparisons                       78
+  alpha_bonferroni                    0.000641025641025641
+  n_significant_uncorrected           65
+  n_significant_bonferroni            59
+
+DeLong (clasificación):
+  alpha_original                      0.05
+  n_comparisons                       28
+  alpha_bonferroni                    0.0017857142857142859
+  n_significant_uncorrected           22
+  n_significant_bonferroni            18
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>📊 Interpretación de Bonferroni:</strong> la corrección ajusta el umbral de significancia de α=0.05 a α/n_comparaciones para controlar la <strong>familia de errores tipo I (FWER)</strong>. Sin esta corrección, hacer 28 comparaciones por pares con α=0.05 implica una probabilidad ~75% de obtener al menos un falso positivo por azar. Con Bonferroni, <strong>menos pares aparecen como significativos</strong> — este es el comportamiento correcto y conservador.</p>
+<p>Si tras Bonferroni siguen quedando comparaciones significativas, son <strong>diferencias robustas y reportables</strong>. Si todas dejan de ser significativas, la conclusión honesta es que <strong>los modelos son estadísticamente equivalentes</strong> y la elección debe basarse en otros criterios (interpretabilidad, costo computacional, simplicidad).</p>
+</div></blockquote>
+</section>
+<section id="persistir-resultados">
+<h2>10. Persistir resultados<a class="headerlink" href="#persistir-resultados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Guardar todo en JSON serializable</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">df_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">round_n</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">round_n</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+                   <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+
+<span class="n">stats_summary</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;regression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;dm_pvalues&quot;</span><span class="p">:</span> <span class="n">df_to_dict</span><span class="p">(</span><span class="n">dm_pvalues</span><span class="p">),</span>
+        <span class="s2">&quot;dm_diff_rmse&quot;</span><span class="p">:</span> <span class="n">df_to_dict</span><span class="p">(</span><span class="n">dm_diff_rmse</span><span class="p">),</span>
+        <span class="s2">&quot;bootstrap_rmse&quot;</span><span class="p">:</span> <span class="n">df_boot</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;bonferroni&quot;</span><span class="p">:</span> <span class="n">bf_dm</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;classification&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;delong_pvalues&quot;</span><span class="p">:</span> <span class="n">df_to_dict</span><span class="p">(</span><span class="n">dl_pvalues</span><span class="p">),</span>
+        <span class="s2">&quot;delong_diff_auc&quot;</span><span class="p">:</span> <span class="n">df_to_dict</span><span class="p">(</span><span class="n">dl_diff_auc</span><span class="p">),</span>
+        <span class="s2">&quot;bootstrap_auc&quot;</span><span class="p">:</span> <span class="n">df_auc</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;bonferroni&quot;</span><span class="p">:</span> <span class="n">bf_dl</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">save_metrics</span><span class="p">(</span><span class="n">stats_summary</span><span class="p">,</span> <span class="s2">&quot;statistical_comparisons&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Comparaciones estadísticas guardadas en outputs/metrics/statistical_comparisons.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Comparaciones estadísticas guardadas en outputs/metrics/statistical_comparisons.json
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="resumen-del-notebook">
+<h2>11. Resumen del notebook<a class="headerlink" href="#resumen-del-notebook" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hallazgo</p></th>
+<th class="head"><p>Implicación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Diebold-Mariano por pares</p></td>
+<td><p>Identifica qué pares de modelos de regresión difieren significativamente</p></td>
+</tr>
+<tr class="row-odd"><td><p>DeLong real por pares</p></td>
+<td><p>Identifica qué pares de clasificadores difieren en AUC</p></td>
+</tr>
+<tr class="row-even"><td><p>IC bootstrap 95%</p></td>
+<td><p>Cuantifica incertidumbre real, robusto a no-normalidad</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bonferroni</p></td>
+<td><p>Controla error tipo I familia-completo en múltiples comparaciones</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Próximo paso:</strong> notebook <code class="docutils literal notranslate"><span class="pre">10_interpretabilidad.ipynb</span></code> — entender <strong>qué features impulsan las predicciones</strong> del mejor modelo XGBoost (importancia + LIME).</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="08_residuos_y_diagnosticos.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">8. Residuos y Diagnósticos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="10_interpretabilidad.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">10. Interpretabilidad</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-y-carga-de-predicciones">1. Imports y carga de predicciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacion-de-regresion-diebold-mariano-por-pares">2. Comparación de regresión: Diebold-Mariano por pares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-de-p-valores-dm">3. Heatmap de p-valores DM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-ci-95-para-rmse">4. Bootstrap CI 95% para RMSE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion-de-ic-bootstrap">5. Visualización de IC bootstrap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-delong-real-por-pares">6. Clasificación: DeLong real por pares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-de-p-valores-delong">7. Heatmap de p-valores DeLong</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-ci-95-para-auc">8. Bootstrap CI 95% para AUC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correccion-de-bonferroni">9. Corrección de Bonferroni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistir-resultados">10. Persistir resultados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-notebook">11. Resumen del notebook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Juan Camilo Conrado · Sergio Cadavid · Mateo Chang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
