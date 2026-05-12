@@ -61,3 +61,13 @@ sphinx:
     html_theme_options:
       navigation_with_keys: false
     bibtex_reference_style: author_year
+    exclude_patterns:
+          - '.conda/**'
+          - '.pytest_cache/**'
+          - 'notebook-14/**'
+          - 'fixes-opcion-a/**'
+          - 'notebooks/INSTRUCCIONES.md'
+          - 'ARCHITECTURE.md'
+          - 'README.md'
+          - '_build/**'
+          - '**/__pycache__/**'

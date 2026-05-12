@@ -89,11 +89,12 @@ jupyter-book build .
 
 > **Nota:** los números finales se completan tras ejecutar todos los notebooks. Esta sección se actualiza al final.
 
-- **Mejor benchmark econométrico:** TBD
-- **Mejor modelo ML clásico:** TBD
-- **Mejor modelo avanzado:** TBD
-- **Modelo original HVRF:** TBD vs benchmarks
-- **Decisión final:** TBD
+
+- **Mejor benchmark econométrico:** GARCH(1,1) corregido — RMSE 0.00674, R² -0.08 (competitivo con Ridge tras corregir el bug de escala del forecast a multi-paso).
+- **Mejor modelo ML clásico:** Ridge — RMSE_test 0.00658, R²_CV +0.238, R²_test -0.030. Predice mejor que la media y tiene gap train-test pequeño.
+- **Mejor modelo avanzado:** LSTM y CatBoost empatados técnicamente (RMSE ≈ 0.00662). LSTM se entrenó por 36 épocas con early stopping.
+- **Modelo original HVRF:** RMSE 0.00682. **NO supera a Ridge** (Diebold-Mariano p=0.0122 → Ridge significativamente mejor). **Empate estadístico con ensamble naive 50/50** (DM p=0.0925). Las ablaciones confirman que el router aprende información útil (router uniforme degrada el RMSE en 50%).
+- **Decisión final:** Para producción se recomienda **Ridge** por su simplicidad, velocidad e interpretabilidad. El HVRF se conserva como **detector complementario de régimen** (P(régimen=high) tiene correlación positiva con la volatilidad real y aporta una señal accionable que un modelo plano no entrega).
 
 ---
 
